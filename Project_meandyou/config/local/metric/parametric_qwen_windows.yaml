@@ -1,0 +1,12 @@
+chunk_node_path: chunking/553_50_line/nodes.json
+golden_node_path: chunking/golden/nodes.json
+
+result_dir: results/legacy/parametric_qwen/parametric-qwen
+
+llm_config:
+  model: gpt-4o-2024-08-06
+  max_completion_tokens: 2048
+  temperature: 0.3
+
+eval_retrieval: false
+batch_size: 1

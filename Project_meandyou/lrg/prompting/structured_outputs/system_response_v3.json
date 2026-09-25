@@ -1,0 +1,25 @@
+{
+  "name": "response",
+  "description": "Common direct response interface for Thai legal QA.",
+  "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "$defs": {
+      "Citation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "law": {"type": "string", "description": "Exact LAW_NAME from the provided LEGAL_CONTEXT."},
+          "section": {"type": "string", "description": "Exact SECTION_ID paired with that LAW_NAME in the provided LEGAL_CONTEXT."}
+        },
+        "required": ["law", "section"]
+      }
+    },
+    "properties": {
+      "analysis": {"type": "string", "description": "English legal analysis based only on the provided question and context."},
+      "answer": {"type": "string", "description": "Direct, complete Thai answer."},
+      "citations": {"type": "array", "items": {"$ref": "#/$defs/Citation"}}
+    },
+    "required": ["analysis", "answer", "citations"]
+  }
+}

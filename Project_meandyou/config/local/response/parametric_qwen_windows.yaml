@@ -1,0 +1,28 @@
+data_config:
+  golden:
+    law_dir: test_data/laws
+    node_path: chunking/golden/nodes.json
+    tax_data_path: test_data/hf_tax.csv
+    wangchan_data_path: test_data/hf_wcx.csv
+    section_idx_path: dump/section_idx.json
+
+retriever_config:
+  no-retriever:
+    retriever: null
+
+augmenter_config:
+  no-ref:
+    reference: false
+
+llm_config:
+  qwen:
+    model: qwen2.5:7b
+    max_tokens: 2048
+    temperature: 0
+    seed: 42
+    base_url: http://localhost:11434/v1
+    api_key: ollama
+
+output_path: results/current/parametric_qwen_controlled
+batch_size: 1
+device: 0

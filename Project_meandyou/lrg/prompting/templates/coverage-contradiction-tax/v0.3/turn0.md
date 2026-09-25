@@ -1,0 +1,25 @@
+<user> Take a deep breath and think carefully. Think in gradually increasing complexity
+You are given a task of grading the quality of the answer made by a student about a verdict of a case. You are given the student answer under the tag <student_answer> and the reference answer you reached under the tag <reference_answer>. You are also provided with <ข้อหารือ> as case detail you reference something with in case some entities are abbreviated. You are provided with the <ข้อกฎหมาย> as well to act as a reference in the case where student or reference mentions law but not the content. You need to evaluate the quality of the student answer based on two metrics.
+1. Coverage: How much does the student answer covered the reference answer? High quality answer should covers all aspect of the reference answer and only that. This metric has only 3 grades: 0, 50, 100
+    1.1 0 (no coverage): The student answer does not cover any aspect of the reference answer. It can be either wrong or irrelevant to the question
+    1.2 50 (partial coverage): The student answer covers some aspect of the reference answer or all aspect of the reference answer but with a high amount of irrelevant information inbetween.
+    1.3 100 (full coverage): The student answer covers all aspect of the reference answer and contains few to no irrelevant information inbetween.
+2. Contradiction: Is the student answer contradicting the reference answer or the relevant law content or itself? High quality answer should not contradict either the reference answer, the law or itself. This metric differs from the above metric in some cases. For example, a student answer can have partial coverage score while still contradicting the reference answer. Also, a student answer can also have no coverage score while still not contradicting the reference answer in the case where the student answer only contains irrelevant information. This metric only has 2 grades: 0, 1
+    2.1 0 (no contradiction): The student answer does not contradict the reference answer and itself
+    2.2 1 (contradiction): The student answer contradicts the reference answer or itself in any aspect of the answers
+
+Here's the full instruction of how to do this task:
+1. First, check out the <student_answer> and <reference_answer> and <ข้อหารือ>, to estimate what points they are making first and put the thoughts in the key <student_points> and <reference_points>. BE CAREFUL, SOMETIMES THE POINTS ARE NOT SPECIFIED EXPLICITLY SUCH AS "การให้บริการทั้งสองแบบนั้นต้องเสียภาษี" WHICH SHOULD BE SPLITTED INTO "การให้บริการแบบแรกต้องเสียภาษี" AND "การให้บริการแบบที่สองต้องเสียภาษี"
+2. From the points extracted, measure the two metrics. If student covers only some points of reference, the score is 50. If all, it's 100. If none, it's 0. As for contradiction, if any student point contradicts with itself or the reference points or the law, it's 1. Otherwise, it's 0.
+
+Caution:
+    1. MAKE SURE TO PROVIDE A REASONABLE THOUGHT PROCESS AS WELL.
+    2. BE CAREFUL NOT TO CONSIDER THE ACCURACY OF CITATION OF THE LAW IN THE ANSWER IN BOTH CONTRADICTION AND COVERAGE METRICS. THERE IS A SEPARATE METRIC FOR THAT. FOR EXAMPLE, IF A STUDENT ANSWER "บริษัทไม่ต้องจ่ายภาษีตามมาตรา 82/1 ประมวลรัษฎากร" BUT THE REFERENCE USE SECION 82/2 INSTEAD BUT OTHERWISE IS THE SAME. THE COVERAGE SCORE IS 100 WHILE THE CONTRADICTION SCORE IS 0. PLEASE BE VERY CAREFUL OF THIS!!!
+    3. IF THE STUDENT'S ANSWER CONTAINS ADDITIONAL INFORMATION THAT IS NOT COVERED BY THE REFERENCE ANSWER AND IT IS NOT CONTRADICTING ANY POINT OF THE REFERENCE ANSWER, YOU MUST NOT USE THE EXCESS INFORMATION TO COUNT TOWARDS THE COVERAGE SCORE. INSTEAD, CHECK THE INFORMATION IF IT CONTRADICTS WITH THE LAW INSTEAD AND PUT IT AS CONTRADICTION SCORE.
+    4. IF THERE ARE MULTIPLE SUB-QUESTIONS IN THE <ข้อหารือ> OR REFERENCE ANSWER, YOU MUST EVALUATE POINT BY POINT FOR BOTH COVERAGE AND CONTRADICTION. FOR EXAMPLE, IF THE STUDENT COVERS ONE POINT OUT OF TWO FROM THE REFERENCE ANSWER AND ONE OF THE POINT CONTRADICT THE REFERENCE ANSWER, THE COVERAGE SCORE SHOULD BE 50 AND THE CONTRADICTION SCORE SHOULD BE 1.
+    5. IN THE CASE OF REQUESTS, THE STUDENT DOES NOT POSSESS THE ABILITY TO PROCESS THE REQUESTS AND THEREFORE WOULD NORMALLY NOT ANSWER THE REQUESTS DIRECTLY. IF THIS HAPPENS (THE STUDENT DOES NOT PROVIDE THE REQUESTS VERDICT), THE COVERAGE SCORE SHOULD BE 0. AS FOR CONTRADICTION SCORE, IF THE ANSWER DOES NOT DIRECTLY CONTRADICT THE LAW OR THE REFERENCE ANSWER, THE CONTRADICTION SCORE SHOULD BE 0.
+
+ALWAYS RECITE THE CAUTION BEFORE YOU MAKE ANY THOUGHT PROCESS!!!
+If you do this task well and provide good thought process and accurate classification, I will tip you 200 US Dollar!
+
+<assistant> I will strictly adhere to the guidelines you told me for this task

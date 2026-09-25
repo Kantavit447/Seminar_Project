@@ -1,0 +1,22 @@
+data_config:
+    golden: 
+          node_path: /app/LRG/chunking/golden/nodes.json
+      
+retriever_config:
+    golden-retriever:
+        model_name: bm25
+        k: 10
+      
+augmenter_config:
+    no-ref:
+        reference: False #Default
+      
+llm_config:
+    claude-3.5-sonnet:
+          model: claude-3-5-sonnet-20240620
+          max_tokens: 2048
+          temperature: 0.5
+      
+output_path: /app/LRG/results/e2e/v0.1/retriever_vary
+batch_size: 10
+          

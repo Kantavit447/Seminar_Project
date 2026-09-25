@@ -1,0 +1,27 @@
+data_config:
+    golden: 
+        wangchan_data_path: /app/test_data/lclm_sample.csv
+        node_path: /app/LRG/chunking/golden/nodes.json
+      
+retriever_config:
+    human-finetuned-bge-m3:
+          model_name: wangchan-rerank-multi
+          k: 10 #Default
+      
+augmenter_config:
+    no-ref:
+        reference: False #Default
+      
+llm_config:      
+    gemini-1.5-pro-lc:
+          model: gemini-1.5-pro-002
+          generation_config:
+              max_output_tokens: 2048
+              temperature: 0.5
+              candidate_count: 1
+              response_mime_type: "application/json"
+          long_context: True 
+      
+output_path: /app/LRG/results/e2e/v0.1/main_table
+batch_size: 2
+          

@@ -1,0 +1,26 @@
+data_config:
+    golden: 
+          node_path: /app/LRG/chunking/golden/nodes.json
+      
+retriever_config:
+    human-finetuned-bge-m3:
+          model_name: wangchan-rerank-multi
+          k: 10 #Default
+      
+augmenter_config:
+    ref-depth-1:
+          reference: True
+          max_depth: 1
+    # no-ref:
+    #       reference: False #Default
+      
+llm_config:
+    claude-3.5-sonnet:
+          model: claude-3-5-sonnet-20240620
+          max_tokens: 2048
+          temperature: 0.5
+      
+output_path: /app/LRG/results/e2e/v0.1/llm_vary
+batch_size: 10
+device: 3
+          

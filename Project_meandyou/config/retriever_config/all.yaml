@@ -1,0 +1,37 @@
+law_dir: /app/test_data/laws
+tax_data_path: /app/test_data/hf_tax.csv
+wangchan_data_path: /app/test_data/hf_wcx.csv
+output_path: /app/LRG/results/retriever
+
+metrics:
+    - multimrr
+    - mrr
+    - multi_hit_rate
+    - hit_rate
+    - precision
+    - recall
+    
+k:
+    - 1
+    - 5
+    - 10
+    - 20
+
+chunking_strategy:
+    - chunk_size: 553
+      chunk_overlap: 50
+      type: line
+    - type: golden
+    
+model_names:
+    - bm25
+    - bge-m3
+    - bge-m3-multi
+    - wangchan-rerank
+    - wangchan-rerank-multi
+    - jinnav2
+    - jinnav3
+    - cohere
+    - nvembed
+    - wangchan-auto-rerank
+    - wangchan-auto-rerank-multi

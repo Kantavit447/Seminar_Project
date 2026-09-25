@@ -1,0 +1,23 @@
+data_config:
+    golden: 
+          node_path: /app/LRG/chunking/golden/nodes.json
+          wangchan_data_path: /app/test_data/lclm_sample.csv
+      
+retriever_config:
+    human-finetuned-bge-m3:
+          model_name: wangchan-rerank-multi
+          k: 10 #Default
+      
+augmenter_config:
+    no-ref:
+        reference: False #Default
+      
+llm_config:
+    gpt-o1-preview:
+          model: o1-preview-2024-09-12
+          max_completion_tokens: 8192
+          temperature: 1.0
+      
+output_path: /app/LRG/results/e2e/v0.1/main_table
+batch_size: 10
+          
