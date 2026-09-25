@@ -1,0 +1,20 @@
+# สภาพแวดล้อมและไฟล์ชั่วคราวของเครื่อง
+**/.venv*/
+**/venv/
+**/__pycache__/
+*.py[cod]
+**/.pytest_cache/
+**/.ipynb_checkpoints/
+/.agents/
+
+# ไฟล์ตั้งค่าลับ โดยเก็บตัวอย่างไว้ได้
+.env
+.env.*
+*.env
+!.env.example
+!*.env.example
+*.pem
+*.key
+
+# สำเนาสำรองภายในเครื่องของโปรเจกต์ต้นทาง
+/Project_meandyou/backups/

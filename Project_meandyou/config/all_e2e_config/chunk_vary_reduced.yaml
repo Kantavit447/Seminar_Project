@@ -1,0 +1,29 @@
+data_config:
+    reduced-golden: 
+          node_path: /app/LRG/chunking/reduced_golden/nodes.json
+          wangchan_data_path: /app/test_data/hf_wcx_reduced_sections.csv
+          tax_data_path: /app/test_data/hf_tax_reduced_sections.csv
+    reduced-chunk: 
+          node_path: /app/LRG/chunking/553_50_line/nodes.json
+          wangchan_data_path: /app/test_data/hf_wcx_reduced_sections.csv
+          tax_data_path: /app/test_data/hf_tax_reduced_sections.csv
+      
+retriever_config:
+    human-finetuned-bge-m3:
+          model_name: wangchan-rerank-multi
+          k: 10 #Default
+      
+augmenter_config:
+    no-ref:
+          reference: False #Default
+      
+llm_config:
+    gpt-4o:
+          model: gpt-4o-2024-08-06
+          max_completion_tokens: 2048
+          temperature: 0.5 #Default
+      
+output_path: /app/LRG/results/e2e/v0.1/chunk_vary
+batch_size: 50
+device: 3
+          

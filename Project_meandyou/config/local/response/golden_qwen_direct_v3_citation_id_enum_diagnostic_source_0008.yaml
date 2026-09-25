@@ -1,0 +1,40 @@
+data_config:
+  chunk:
+    law_dir: test_data/laws
+    node_path: chunking/golden/nodes.json
+    tax_data_path: data_splits/tax_engineering_10.csv
+    section_idx_path: dump/section_idx.json
+    load_wangchan: false
+
+retriever_config: {}
+
+augmenter_config:
+  no-ref:
+    reference: false
+    context_format: common_v3_citation_id_enum
+
+llm_config:
+  qwen:
+    model: qwen2.5:7b
+    max_tokens: 4096
+    temperature: 0.0
+    seed: 42
+    base_url: http://localhost:11434/v1
+    api_key: ollama
+
+context_source: golden
+prompt_version: v3
+reasoning_method: direct
+citation_mode: provision_id
+citation_constraint_mode: enum
+citation_validation: true
+output_path: results/current/common_interface_v3/diagnostics/golden_direct_v3_citation_id_enum_source_0008
+batch_size: 1
+device: 0
+
+diagnostic:
+  runtime_idx: "0004"
+  source_idx: "0008"
+  save_raw_on_parse_failure: true
+  max_retries: 1
+  failure_output_dir: results/current/common_interface_v3/diagnostics/golden_direct_v3_citation_id_enum_length_failure

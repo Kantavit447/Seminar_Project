@@ -1,0 +1,24 @@
+data_config:
+    golden: 
+          node_path: /app/LRG/chunking/golden/nodes.json
+      
+retriever_config:
+    golden-retriever:
+        model_name: bm25
+        k: 10
+      
+augmenter_config:
+    no-ref:
+        reference: False #Default
+      
+llm_config:
+    typhoon-v2-70b:
+        model: typhoon-v2-70b-instruct-private
+        temperature: 0.5
+        max_tokens: 8192
+        base_url: https://api.opentyphoon.ai/v1
+        api_key: XXX
+      
+output_path: /app/LRG/results/e2e/v0.1/retriever_vary
+batch_size: 50
+          

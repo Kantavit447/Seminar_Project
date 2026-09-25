@@ -1,0 +1,59 @@
+{
+  "name": "response",
+  "description": "Structured response for answering a Thai tax law question using only the provided case details and law context.",
+  "input_schema": {
+    "type": "object",
+    "$defs": {
+      "Citation": {
+        "title": "Citation",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "law": {
+            "title": "Law",
+            "type": "string",
+            "description": "The exact law name taken only from the law_name attribute of the same provided law or related_law tag. Do not include the word มาตรา, a section number, XML tags, or law text."
+          },
+          "section": {
+            "title": "Section",
+            "type": "string",
+            "description": "The exact section identifier taken only from the section attribute of the same provided law or related_law tag. Do not include a law name, the word มาตรา, XML tags, or explanatory text."
+          }
+        },
+        "required": [
+          "law",
+          "section"
+        ]
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "analysis": {
+        "title": "Analysis",
+        "type": "string",
+        "description": "English legal analysis based only on the provided case details and law context. Do not invent facts or laws."
+      },
+      "answer": {
+        "title": "Answer",
+        "type": "string",
+        "description": "Direct and complete final answer in Thai only. Address every material part of the question."
+      },
+      "citations": {
+        "title": "Citations",
+        "type": "array",
+        "description": "Only the provided laws directly used to support the answer.",
+        "items": {
+          "$ref": "#/$defs/Citation"
+        }
+      }
+    },
+    "required": [
+      "analysis",
+      "answer",
+      "citations"
+    ]
+  },
+  "cache_control": {
+    "type": "ephemeral"
+  }
+}

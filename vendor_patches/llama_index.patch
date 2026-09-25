@@ -1,0 +1,533 @@
+diff --git a/llama-index-core/llama_index/core/evaluation/retrieval/base.py b/llama-index-core/llama_index/core/evaluation/retrieval/base.py
+index 66d1ce139..3a15f3c5c 100644
+--- a/llama-index-core/llama_index/core/evaluation/retrieval/base.py
++++ b/llama-index-core/llama_index/core/evaluation/retrieval/base.py
+@@ -16,6 +16,11 @@ from llama_index.core.llama_dataset.legacy.embedding import (
+     EmbeddingQAFinetuneDataset,
+ )
+ 
++from tqdm import tqdm
++from tqdm.asyncio import tqdm_asyncio
++
++import concurrent.futures
++
+ 
+ class RetrievalEvalMode(str, Enum):
+     """Evaluation of retrieval modality."""
+@@ -164,6 +169,111 @@ class BaseRetrievalEvaluator(BaseModel):
+             mode=mode,
+             metric_dict=metric_dict,
+         )
++    
++    # @abstractmethod
++    async def aevaluate_multik(
++        self,
++        query: str,
++        expected_ids: List[str],
++        expected_texts: Optional[List[str]] = None,
++        mode: RetrievalEvalMode = RetrievalEvalMode.TEXT,
++        k: List[int] = [1],
++        mapping: Dict[str, List[str]] = None,
++        **kwargs: Any,
++    ) -> RetrievalEvalResult:
++        """Run evaluation with query string, retrieved contexts,
++        and generated response string.
++
++        Subclasses can override this method to provide custom evaluation logic and
++        take in additional arguments. Take in multiple k. Return dict of retrievalEvalResults
++        """
++        retrieved_ids, retrieved_texts = await self._aget_retrieved_ids_and_texts(
++            query, mode
++        )
++        
++        assert len(retrieved_ids) >= max(k), "Please set the top k of the retriever to be at least the same as maximum k"
++        
++        k_dict = {}
++        
++        for _k in k:
++            metric_dict = {}
++            for metric in self.metrics:
++                eval_result = metric.compute(
++                    query, expected_ids, retrieved_ids[:_k], expected_texts, retrieved_texts[:_k], mapping=mapping
++                )
++                metric_dict[metric.metric_name] = eval_result
++            
++            k_dict[_k] = RetrievalEvalResult(
++                            query=query,
++                            expected_ids=expected_ids,
++                            expected_texts=expected_texts,
++                            retrieved_ids=retrieved_ids[:_k],
++                            retrieved_texts=retrieved_texts[:_k],
++                            mode=mode,
++                            metric_dict=metric_dict,
++                        )
++
++        return k_dict
++    
++    def evaluate_multik(
++        self,
++        query: str,
++        expected_ids: List[str],
++        expected_texts: Optional[List[str]] = None,
++        mode: RetrievalEvalMode = RetrievalEvalMode.TEXT,
++        k: List[int] = [1],
++        mapping: Dict[str, List[str]] = None,
++        **kwargs: Any,
++    ) -> RetrievalEvalResult:
++        
++        return asyncio.run(aevaluate_multik(query=query, expected_ids=expected_ids, expected_texts=expected_texts, mode=mode, k=k, mapping=mapping, **kwargs))
++    
++    
++    async def evaluate_dataset_multik(
++        self,
++        dataset: EmbeddingQAFinetuneDataset,
++        k: List[int] = [1],
++        mapping: Dict[str, List[str]] = None,
++        **kwargs: Any,
++    ) -> List[RetrievalEvalResult]:
++        """Run evaluation with dataset. Handle multiple k as well. Return dictionary of multiple results"""
++        
++        mode = RetrievalEvalMode.from_str(dataset.mode)
++        
++        eval_results = {_k: [] for _k in k}
++        # eval_results = []
++        # eval_jobs = []
++        
++        # Then, just get the retrieved id and text first for every query        
++        for query_id, query in tqdm(dataset.queries.items()):
++            
++            expected_ids = dataset.relevant_docs[query_id]
++            
++            tmp = await self.aevaluate_multik(query, expected_ids=expected_ids, mode=mode, k = k, mapping=mapping)
++            
++            for _k in tmp:
++                eval_results[_k].append(tmp[_k])
++        
++        #Creating jobs
++#         for query_id, query in tqdm(dataset.queries.items()):
++       
++#             expected_ids = dataset.relevant_docs[query_id]
++#             eval_jobs.append({"query": query, "expected_ids": expected_ids, "mode": mode, "k": k, "mapping": mapping})
++            
++#        #Running jobs
++#         # Use ProcessPoolExecutor for parallel processing
++#         with concurrent.futures.ProcessPoolExecutor(max_workers = 12) as executor:
++#             # Use tqdm to show progress
++#             futures = {executor.submit(self.evaluate_multik, **item): item for item in eval_jobs}
++
++#             # Collect results with progress display
++#             for future in tqdm(concurrent.futures.as_completed(futures), total=len(futures), desc="Processing Items"):
++#                 result = future.result()  # Get the result of each processed item
++#                 eval_results.append(result)
++
++
++        return eval_results
++        
+ 
+     async def aevaluate_dataset(
+         self,
+@@ -186,8 +296,8 @@ class BaseRetrievalEvaluator(BaseModel):
+         for query_id, query in dataset.queries.items():
+             expected_ids = dataset.relevant_docs[query_id]
+             response_jobs.append(eval_worker(query, expected_ids, mode))
++        
+         if show_progress:
+-            from tqdm.asyncio import tqdm_asyncio
+ 
+             eval_results = await tqdm_asyncio.gather(*response_jobs)
+         else:
+diff --git a/llama-index-core/llama_index/core/evaluation/retrieval/metrics.py b/llama-index-core/llama_index/core/evaluation/retrieval/metrics.py
+index 8e57401f7..01dc24c9b 100644
+--- a/llama-index-core/llama_index/core/evaluation/retrieval/metrics.py
++++ b/llama-index-core/llama_index/core/evaluation/retrieval/metrics.py
+@@ -12,6 +12,59 @@ from typing_extensions import assert_never
+ 
+ _AGG_FUNC: Dict[str, Callable] = {"mean": np.mean, "median": np.median, "max": np.max}
+ 
++class MultiHitRate(BaseRetrievalMetric):
++    """Hit rate metric: Compute hit rate with two calculation options.
++    """
++
++    metric_name: ClassVar[str] = "multi_hit_rate"
++
++    def compute(
++        self,
++        query: Optional[str] = None,
++        expected_ids: Optional[List[str]] = None,
++        retrieved_ids: Optional[List[str]] = None,
++        expected_texts: Optional[List[str]] = None,
++        retrieved_texts: Optional[List[str]] = None,
++        **kwargs: Any,
++    ) -> RetrievalMetricResult:
++        """Compute metric based on the provided inputs.
++
++        Parameters:
++            query (Optional[str]): The query string (not used in the current implementation).
++            expected_ids (Optional[List[str]]): Expected document IDs.
++            retrieved_ids (Optional[List[str]]): Retrieved document IDs.
++            expected_texts (Optional[List[str]]): Expected texts (not used in the current implementation).
++            retrieved_texts (Optional[List[str]]): Retrieved texts (not used in the current implementation).
++
++        Raises:
++            ValueError: If the necessary IDs are not provided.
++
++        Returns:
++            RetrievalMetricResult: The result with the computed hit rate score.
++        """
++        # Checking for the required arguments
++        if (
++            retrieved_ids is None
++            or expected_ids is None
++            or not retrieved_ids
++            or not expected_ids
++        ):
++            raise ValueError("Retrieved ids and expected ids must be provided")
++            
++        mapping = kwargs.get("mapping")
++
++        expected_set = set(expected_ids)
++        
++        #If no mapping, optimal chunk is used -> Nothing extra is done
++        #If there is mapping, simply map and flatten the list
++        if mapping is not None:
++            retrieved_ids = set(sum([mapping.get(r, []) for r in retrieved_ids], []))
++        # Default HitRate calculation: Check if there is a single hit
++        is_hit = all(rid in retrieved_ids for rid in expected_ids)
++        score = 1.0 if is_hit else 0.0
++
++        return RetrievalMetricResult(score=score)
++
+ 
+ class HitRate(BaseRetrievalMetric):
+     """Hit rate metric: Compute hit rate with two calculation options.
+@@ -59,6 +112,12 @@ class HitRate(BaseRetrievalMetric):
+             or not expected_ids
+         ):
+             raise ValueError("Retrieved ids and expected ids must be provided")
++        
++        mapping = kwargs.get("mapping")
++        #If no mapping, optimal chunk is used -> Nothing extra is done
++        #If there is mapping, simply map and flatten the list
++        if mapping is not None:
++            retrieved_ids = set(sum([mapping.get(r, []) for r in retrieved_ids], []))
+ 
+         if self.use_granular_hit_rate:
+             # Granular HitRate calculation: Calculate all hits and divide by the number of expected docs
+@@ -67,10 +126,94 @@ class HitRate(BaseRetrievalMetric):
+             score = hits / len(expected_ids) if expected_ids else 0.0
+         else:
+             # Default HitRate calculation: Check if there is a single hit
+-            is_hit = any(id in expected_ids for id in retrieved_ids)
++            is_hit = any(rid in expected_ids for rid in retrieved_ids)
+             score = 1.0 if is_hit else 0.0
+ 
+         return RetrievalMetricResult(score=score)
++    
++class MultiMRR(BaseRetrievalMetric):
++    """
++    Multi Label MRR (Mean Reciprocal Rank) metric with two calculation options.
++
++    - This is more suitable with ground truths containing multi labels as it makes the highest score 1
++
++    Attributes:
++        metric_name (str): The name of the metric.
++    """
++    # Multi-MRR@k = 1/N * sum((Recall / number of relevant retrieved) * reciprocal rank sum)
++    
++    metric_name: ClassVar[str] = "multimrr"
++    
++    def compute(
++        self,
++        query: Optional[str] = None,
++        expected_ids: Optional[List[str]] = None,
++        retrieved_ids: Optional[List[str]] = None,
++        expected_texts: Optional[List[str]] = None,
++        retrieved_texts: Optional[List[str]] = None,
++        **kwargs: Any,
++    ) -> RetrievalMetricResult:
++        """Compute MRR based on the provided inputs and selected method.
++
++        Parameters:
++            query (Optional[str]): The query string (not used in the current implementation).
++            expected_ids (Optional[List[str]]): Expected document IDs.
++            retrieved_ids (Optional[List[str]]): Retrieved document IDs.
++            expected_texts (Optional[List[str]]): Expected texts (not used in the current implementation).
++            retrieved_texts (Optional[List[str]]): Retrieved texts (not used in the current implementation).
++
++        Raises:
++            ValueError: If the necessary IDs are not provided.
++
++        Returns:
++            RetrievalMetricResult: The result with the computed MRR score.
++        """
++        # Checking for the required arguments
++        if (
++            retrieved_ids is None
++            or expected_ids is None
++            or not retrieved_ids
++            or not expected_ids
++        ):
++            raise ValueError("Retrieved ids and expected ids must be provided")
++        
++        mapping = kwargs.get("mapping")
++        #Given the expected_ids and retrieved ids. What we want to do is the same as MRR but now the denominator is subtracted by previously hit retrieved documents
++        # This is to track j in the Multi-MRR equation in the paper
++        relevant_docs_count = 0
++        
++        expected_set = set(expected_ids)
++        
++        # This is to track \Sigma_{j=1} ({|T_i intersects R_i|} * 1/(rank(d_j) - j + 1)) or reciprocal rank sum
++        reciprocal_rank_sum = 0.0
++        
++        hit_docs = set()
++        
++        #As for MRR, iterate through each retrieved ids, if there is mapping convert it to set of new ids, add intersection to hit docs
++        for index, doc_id in enumerate(retrieved_ids):
++            if mapping is None:
++                doc_id = set([doc_id])
++            else:
++                doc_id = set(mapping.get(doc_id, []))
++                
++            hit_doc = doc_id.intersection(expected_set) - hit_docs
++            
++            if len(hit_doc) > 0:
++                reciprocal_rank_sum += 1.0 / (index + 1 - relevant_docs_count)
++                relevant_docs_count += 1
++                hit_docs = hit_docs.union(hit_doc)              
++        
++
++        recall_k = len(hit_docs) / len(expected_set)
++        mrr_score = (
++            (recall_k / relevant_docs_count) * reciprocal_rank_sum
++            if relevant_docs_count > 0
++            else 0.0
++        )
++
++        return RetrievalMetricResult(score=mrr_score)
++    
++    
+ 
+ 
+ class MRR(BaseRetrievalMetric):
+@@ -111,6 +254,7 @@ class MRR(BaseRetrievalMetric):
+         Returns:
+             RetrievalMetricResult: The result with the computed MRR score.
+         """
++        mapping = kwargs.get("mapping")
+         # Checking for the required arguments
+         if (
+             retrieved_ids is None
+@@ -125,10 +269,19 @@ class MRR(BaseRetrievalMetric):
+             expected_set = set(expected_ids)
+             reciprocal_rank_sum = 0.0
+             relevant_docs_count = 0
++            hit_docs = set()
+             for index, doc_id in enumerate(retrieved_ids):
+-                if doc_id in expected_set:
++                if mapping is None:
++                    doc_id = set([doc_id])
++                else:
++                    doc_id = set(mapping.get(doc_id, []))
++
++                hit_doc = doc_id.intersection(expected_set) - hit_docs
++                if len(hit_doc) > 0:
+                     relevant_docs_count += 1
+                     reciprocal_rank_sum += 1.0 / (index + 1)
++                    hit_docs = hit_docs.union(hit_doc)
++                    
+             mrr_score = (
+                 reciprocal_rank_sum / relevant_docs_count
+                 if relevant_docs_count > 0
+@@ -136,9 +289,17 @@ class MRR(BaseRetrievalMetric):
+             )
+         else:
+             # Default MRR calculation: Reciprocal rank of the first relevant document retrieved
++            expected_set = set(expected_ids)
+             for i, id in enumerate(retrieved_ids):
+-                if id in expected_ids:
++                if mapping is None:
++                    doc_id = set([id])
++                else:
++                    doc_id = set(mapping.get(id, []))
++
++                hit_doc = doc_id.intersection(expected_set)
++                if len(hit_doc) > 0:
+                     return RetrievalMetricResult(score=1.0 / (i + 1))
++                
+             mrr_score = 0.0
+ 
+         return RetrievalMetricResult(score=mrr_score)
+@@ -180,6 +341,7 @@ class Precision(BaseRetrievalMetric):
+             RetrievalMetricResult: The result with the computed precision score.
+         """
+         # Checking for the required arguments
++        mapping = kwargs.get("mapping")
+         if (
+             retrieved_ids is None
+             or expected_ids is None
+@@ -187,10 +349,24 @@ class Precision(BaseRetrievalMetric):
+             or not expected_ids
+         ):
+             raise ValueError("Retrieved ids and expected ids must be provided")
+-
+         retrieved_set = set(retrieved_ids)
+         expected_set = set(expected_ids)
+-        precision = len(retrieved_set & expected_set) / len(retrieved_set)
++        hit_docs = set()
++        if mapping is None:
++            precision = len(retrieved_set & expected_set) / len(retrieved_set)
++            
++        else:
++            #Iterate through and count
++            hit_count = 0
++            for id in retrieved_set:
++                converted_id = set(mapping.get(id, []))
++                hit_doc = converted_id.intersection(expected_set) - hit_docs
++                if len(hit_doc) > 0:
++                    hit_count += 1
++                    hit_docs = hit_docs.union(hit_doc)
++                    
++            precision = hit_count / len(retrieved_set)
++            
+ 
+         return RetrievalMetricResult(score=precision)
+ 
+@@ -236,8 +412,16 @@ class Recall(BaseRetrievalMetric):
+             or not expected_ids
+         ):
+             raise ValueError("Retrieved ids and expected ids must be provided")
+-
+-        retrieved_set = set(retrieved_ids)
++        
++        mapping = kwargs.get("mapping")
++        
++        #If mapping is None, easy work
++        if mapping is None:
++            retrieved_set = set(retrieved_ids)
++        #If not, just do the same as hit rate
++        else:
++            retrieved_set = set(sum([mapping.get(r, []) for r in retrieved_ids], []))
++        
+         expected_set = set(expected_ids)
+         recall = len(retrieved_set & expected_set) / len(expected_set)
+ 
+@@ -375,13 +559,13 @@ class NDCG(BaseRetrievalMetric):
+             discounted_gain(rel=docid in expected_set, i=i, mode=mode)
+             for i, docid in enumerate(retrieved_ids, start=1)
+         )
+-
+         idcg = sum(
+             discounted_gain(rel=True, i=i, mode=mode)
+-            for i in range(1, len(expected_ids) + 1)
++            for i in range(1, len(retrieved_ids) + 1)
+         )
+ 
+         ndcg_score = dcg / idcg
++
+         return RetrievalMetricResult(score=ndcg_score)
+ 
+ 
+@@ -452,8 +636,10 @@ class CohereRerankRelevancyMetric(BaseRetrievalMetric):
+ 
+ 
+ METRIC_REGISTRY: Dict[str, Type[BaseRetrievalMetric]] = {
++    "multi_hit_rate": MultiHitRate,
+     "hit_rate": HitRate,
+     "mrr": MRR,
++    "multimrr": MultiMRR,
+     "precision": Precision,
+     "recall": Recall,
+     "ap": AveragePrecision,
+diff --git a/llama-index-integrations/indices/llama-index-indices-managed-bge-m3/llama_index/indices/managed/bge_m3/base.py b/llama-index-integrations/indices/llama-index-indices-managed-bge-m3/llama_index/indices/managed/bge_m3/base.py
+index 9d233d1a9..f9e59ca69 100644
+--- a/llama-index-integrations/indices/llama-index-indices-managed-bge-m3/llama_index/indices/managed/bge_m3/base.py
++++ b/llama-index-integrations/indices/llama-index-indices-managed-bge-m3/llama_index/indices/managed/bge_m3/base.py
+@@ -4,6 +4,8 @@ import pickle
+ import numpy as np
+ from pathlib import Path
+ from typing import Any, Dict, List, Optional, Sequence
++import time
++import torch
+ 
+ from llama_index.core.base.base_retriever import BaseRetriever
+ from llama_index.core.data_structs.data_structs import IndexDict
+@@ -40,6 +42,7 @@ class BGEM3Index(BaseIndex[IndexDict]):
+         storage_context: Optional[StorageContext] = None,
+         model_name: str = "BAAI/bge-m3",
+         index_name: str = "",
++        index_path: str = "storage/bge_m3_index",
+         show_progress: bool = False,
+         pooling_method: str = "cls",
+         normalize_embeddings: bool = True,
+@@ -50,7 +53,7 @@ class BGEM3Index(BaseIndex[IndexDict]):
+         weights_for_different_modes: List[float] = None,
+         **kwargs: Any,
+     ) -> None:
+-        self.index_path = "storage/bge_m3_index"
++        self.index_path = index_path
+         self.index_name = index_name
+         self.batch_size = batch_size
+         self.doc_maxlen = doc_maxlen
+@@ -118,6 +121,11 @@ class BGEM3Index(BaseIndex[IndexDict]):
+             return_sparse=True,
+             return_colbert_vecs=True,
+         )
++        
++        self.cache_pad_docs = [torch.from_numpy(p_reps) for p_reps in self._multi_embed_store["colbert_vecs"]]
++        self.cache_pad_docs_size = torch.from_numpy(np.array([x.size(0) for x in self.cache_pad_docs])).to("cuda")
++        self.cache_pad_docs = torch.nn.utils.rnn.pad_sequence(self.cache_pad_docs, batch_first=True).to("cuda")
++        
+         return index_struct
+ 
+     def persist(self, persist_dir: str) -> None:
+@@ -142,7 +150,7 @@ class BGEM3Index(BaseIndex[IndexDict]):
+         weights_for_different_modes: List[float] = None,
+     ) -> "BGEM3Index":
+         sc = StorageContext.from_defaults(persist_dir=persist_dir)
+-        index = BGEM3Index(
++        index = cls(
+             model_name=model_name,
+             index_name=index_name,
+             index_struct=sc.index_store.index_structs()[0],
+@@ -164,6 +172,8 @@ class BGEM3Index(BaseIndex[IndexDict]):
+ 
+         Returns: list of NodeWithScore.
+         """
++       
++        # start_time = time.time()
+         query_embed = self.model.encode(
+             query_str,
+             batch_size=self.batch_size,
+@@ -172,7 +182,7 @@ class BGEM3Index(BaseIndex[IndexDict]):
+             return_sparse=True,
+             return_colbert_vecs=True,
+         )
+-
++        
+         dense_scores = np.matmul(
+             query_embed["dense_vecs"], self._multi_embed_store["dense_vecs"].T
+         )
+@@ -194,6 +204,7 @@ class BGEM3Index(BaseIndex[IndexDict]):
+                 for doc_colbert_vecs in self._multi_embed_store["colbert_vecs"]
+             ]
+         )
++        start_time = time.time()
+ 
+         if self.weights_for_different_modes is None:
+             weights_for_different_modes = [1.0, 1.0, 1.0]
+diff --git a/llama-index-integrations/indices/llama-index-indices-managed-bge-m3/llama_index/indices/managed/bge_m3/retriever.py b/llama-index-integrations/indices/llama-index-indices-managed-bge-m3/llama_index/indices/managed/bge_m3/retriever.py
+index b37122299..7238486e1 100644
+--- a/llama-index-integrations/indices/llama-index-indices-managed-bge-m3/llama_index/indices/managed/bge_m3/retriever.py
++++ b/llama-index-integrations/indices/llama-index-indices-managed-bge-m3/llama_index/indices/managed/bge_m3/retriever.py
+@@ -56,8 +56,10 @@ class BGEM3Retriever(BaseRetriever):
+         self,
+         query_bundle: QueryBundle,
+     ) -> List[NodeWithScore]:
+-        return self._index.query(
++        result = self._index.query(
+             query_str=query_bundle.query_str,
+             top_k=self._similarity_top_k,
+             **self._kwargs,
+         )
++        
++        return result

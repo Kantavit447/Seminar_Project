@@ -1,0 +1,5 @@
+<user> <ข้อหารือ> บริษัท A เป็นผู้ประกอบการนำเข้าสินค้า อินทผาลัม มะเดื่อแห้ง อาปิคอต ลูกพลัม จากต่างประเทศนำมาบรรจุ ใส่กล่องกระดาษที่คล้ายกล่องส่งไปรษณีย์ภัณฑ์ เพียงแต่นำมาสอดขัดขึ้นรูปเป็นกล่องบรรจุ เพื่อสะดวกต่อการขนย้าย และจำหน่ายภายในประเทศ แต่มิได้ทำเป็นอุตสาหกรรม และเป็นการขายทั้งปลีกและส่ง การบรรจุภาชนะหรือหีบห่อ มิได้บรรจุกระป๋อง หรือผนึกในลักษณะมั่นคง และสินค้าดังกล่าวไม่จำต้องแปรรูปใดๆ เพียงแต่เก็บไว้ในห้องที่มีอุณหภูมิไม่เกิน 1 องศาเซลเซียส บริษัทฯ จึงขอทราบว่า การขายสินค้าดังกล่าว ได้รับการยกเว้นภาษีมูลค่าเพิ่ม ตามมาตรา 81(1) (ก) แห่งประมวลรัษฎากร หรือไม่ <\ข้อหารือ>
+
+<assistant> ```json
+{"analysis": "From the given case details, the company import date palm, dried fig, apricot and plum which is considered agricultural product from foreign country. The products also undergo some process such as freezing, cooling, drying and other to prolong their shelf life. Hence, selling said products falls into the exception of VAT collection according to section 81(1)(ก) of ประมวลรัษฎากร", "answer": "การขายสินค้าดังกล่าวได้รับการยกเว้นภาษีมูลค่าเพิ่มตามมาตรา 81(1)(ก) แห่งประมวลรัษฎากร", "citations": [{'law': 'ประมวลรัษฎากร', 'section': '81'}]}
+```

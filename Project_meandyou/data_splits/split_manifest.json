@@ -1,0 +1,113 @@
+{
+    "created_at":  "2026-07-30T10:21:52.6008115Z",
+    "random_seed":  42,
+    "tax_source_file":  "test_data/hf_tax.csv",
+    "tax_total":  50,
+    "tax_engineering_source_idx":  [
+                                       "0000",
+                                       "0001",
+                                       "0002",
+                                       "0003",
+                                       "0008",
+                                       "0023",
+                                       "0026",
+                                       "0036",
+                                       "0041",
+                                       "0046"
+                                   ],
+    "tax_heldout_source_idx":  [
+                                   "0004",
+                                   "0005",
+                                   "0006",
+                                   "0007",
+                                   "0009",
+                                   "0010",
+                                   "0011",
+                                   "0012",
+                                   "0013",
+                                   "0014",
+                                   "0015",
+                                   "0016",
+                                   "0017",
+                                   "0018",
+                                   "0019",
+                                   "0020",
+                                   "0021",
+                                   "0022",
+                                   "0024",
+                                   "0025",
+                                   "0027",
+                                   "0028",
+                                   "0029",
+                                   "0030",
+                                   "0031",
+                                   "0032",
+                                   "0033",
+                                   "0034",
+                                   "0035",
+                                   "0037",
+                                   "0038",
+                                   "0039",
+                                   "0040",
+                                   "0042",
+                                   "0043",
+                                   "0044",
+                                   "0045",
+                                   "0047",
+                                   "0048",
+                                   "0049"
+                               ],
+    "ccl_sources":  [
+                        {
+                            "path":  "test_data/hf_wcx.csv",
+                            "verified_split":  "unknown",
+                            "rows":  3730,
+                            "schema":  {
+                                           "columns":  [
+                                                           "question",
+                                                           "answer",
+                                                           "relevant_laws",
+                                                           "reference_answer"
+                                                       ],
+                                           "has_id":  false,
+                                           "has_question":  true,
+                                           "has_gold_answer":  true,
+                                           "has_gold_citations":  true,
+                                           "has_context":  false,
+                                           "has_split":  false,
+                                           "has_standalone_legislation":  false
+                                       }
+                        }
+                    ],
+    "ccl_development":  {
+                            "source_split":  "blocked: unknown",
+                            "sample_size":  0,
+                            "sampling_method":  "not run; no verified official non-test split",
+                            "output_file":  null
+                        },
+    "ccl_test":  {
+                     "source_split":  "blocked: unknown",
+                     "sample_size":  0,
+                     "sampling_method":  "not run; no verified official test split",
+                     "output_file":  null
+                 },
+    "gold_context_mapping":  {
+                                 "corpus":  "chunking/golden/nodes.json",
+                                 "checked_samples":  20,
+                                 "mapped":  20,
+                                 "unmapped":  0,
+                                 "checked_citations":  20,
+                                 "mapped_citations":  20,
+                                 "unmapped_citations":  0,
+                                 "ambiguous_ids":  0,
+                                 "duplicate_node_ids":  0
+                             },
+    "leakage_checks":  {
+                           "tax_overlap":  0,
+                           "tax_duplicate_rows":  0,
+                           "ccl_duplicate_rows":  0,
+                           "tax_ccl_exact_question_overlap":  0,
+                           "ccl_dev_test_exact_question_overlap":  null,
+                           "ccl_dev_test_status":  "blocked: CCL official splits unknown"
+                       }
+}

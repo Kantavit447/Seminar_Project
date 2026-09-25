@@ -1,0 +1,31 @@
+data_config:
+    golden: 
+          node_path: /app/LRG/chunking/golden/nodes.json
+      
+retriever_config:
+    bm25:
+        model_name: bm25
+        k: 10
+    jina-v3:
+        model_name: jinnav3
+        k: 10
+    human-finetuned-bge-m3:
+        model_name: wangchan-rerank-multi
+        k: 10 #Default
+    cohere:
+        model_name: cohere
+        k: 10 #Default
+      
+augmenter_config:
+    no-ref:
+        reference: False #Default
+      
+llm_config:
+    gpt-4o:
+        model: gpt-4o-2024-08-06
+        max_completion_tokens: 2048
+        temperature: 0.5 #Default
+      
+output_path: /app/LRG/results/e2e/v0.1/retriever_vary
+batch_size: 50
+          

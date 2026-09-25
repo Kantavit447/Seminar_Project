@@ -1,0 +1,29 @@
+# Offline retrieval-only section-based (NitiBench Golden) corpus evaluation.
+# `type: golden` is a corpus strategy here, not Golden Context: the adapter still
+# retrieves every query against all section nodes and does not receive gold IDs.
+law_dir: test_data/laws
+tax_data_path: test_data/hf_tax.csv
+wangchan_data_path: test_data/hf_wcx.csv
+output_path: results/current/retrieval_evaluation/section_based_no_ref
+
+metrics:
+  - multimrr
+  - mrr
+  - multi_hit_rate
+  - hit_rate
+  - precision
+  - recall
+
+k:
+  - 10
+
+chunking_strategy:
+  - type: golden
+
+model_names:
+  - wangchan-rerank-multi
+
+# Passed directly to BGEM3Index and then FlagEmbedding.encode(). This changes
+# only GPU work-unit size; corpus, model, hybrid modes/weights, and top-k stay fixed.
+embedding_batch_size: 8
+retrieval_shard_size: 256
