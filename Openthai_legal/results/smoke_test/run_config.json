@@ -1,0 +1,9 @@
+{
+  "run_name": "smoke_test",
+  "dataset": "data\\nitibench_tax_50.csv",
+  "limit": 1,
+  "indices": null,
+  "all": false,
+  "selected": 1,
+  "started_at": "2026-08-19T17:59:23.296697+00:00"
+}

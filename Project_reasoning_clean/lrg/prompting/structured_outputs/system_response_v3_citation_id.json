@@ -1,0 +1,14 @@
+{
+  "name": "response_citation_id",
+  "description": "Common Direct v3 response interface with model-selected provision identifiers.",
+  "input_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "analysis": {"type": "string", "description": "Concise English legal analysis based only on the provided question and context."},
+      "answer": {"type": "string", "description": "Direct, complete Thai answer."},
+      "citation_ids": {"type": "array", "items": {"type": "string"}, "description": "Only PROVISION_ID values copied exactly from the provided LEGAL_CONTEXT, in the order selected."}
+    },
+    "required": ["analysis", "answer", "citation_ids"]
+  }
+}

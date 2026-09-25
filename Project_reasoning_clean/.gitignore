@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+*.env
+!.env.example
+.pytest_cache/
+results/**
+!results/current/
+!results/current/retrieval_evaluation/
+!results/current/retrieval_evaluation/section_based_no_ref/
+!results/current/retrieval_evaluation/section_based_no_ref/retrieval_results.json

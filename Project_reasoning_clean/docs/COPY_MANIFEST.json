@@ -1,0 +1,938 @@
+[
+  {
+    "source": "lrg/__init__.py",
+    "destination": "lrg/__init__.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "Python package",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "source": "script/response_e2e.py",
+    "destination": "script/response_e2e.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "CLI entry point",
+    "sha256": "a027905e7d33d55d5405c07b3360eba80dd24270baa22adf4e9ba7bba16da67a"
+  },
+  {
+    "source": "lrg/data/__init__.py",
+    "destination": "lrg/data/__init__.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "response_e2e imports EvalDataset",
+    "sha256": "e07a21e217b59f30e290e5b3efe40f839073c741da1852be88b2ebc4f9254a07"
+  },
+  {
+    "source": "lrg/data/data_init.py",
+    "destination": "lrg/data/data_init.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "EvalDataset; loads laws, nodes and Tax data",
+    "sha256": "be3cf0643bd3f0e97f728ef026094ebc06714eb2169b79e0c3800e42949cac5a"
+  },
+  {
+    "source": "lrg/e2e/__init__.py",
+    "destination": "lrg/e2e/__init__.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "response_e2e imports Ragger",
+    "sha256": "ea6dce736e0f3efd2296e90cce0000b81b13fa1fd18085aa72ea8c1c70e20eba"
+  },
+  {
+    "source": "lrg/e2e/ragger.py",
+    "destination": "lrg/e2e/ragger.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "Ragger contexts, calls, mapping and metadata",
+    "sha256": "ba0dcb648dc513ff30a602cc53ca5facc3eca40b67290a46aa62c5bfdfcb0b22"
+  },
+  {
+    "source": "lrg/augmenter/__init__.py",
+    "destination": "lrg/augmenter/__init__.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "response_e2e imports augmenter",
+    "sha256": "cb6d5d4f0461421c2c213d013dfabd72b2a2430bf194235e626d3d1a4f1f72d6"
+  },
+  {
+    "source": "lrg/augmenter/augmenter.py",
+    "destination": "lrg/augmenter/augmenter.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "Common v3 serialization",
+    "sha256": "355aad8e3546efe66ee860df9425cac8f7eed00d424c7be7892030a585590ae8"
+  },
+  {
+    "source": "lrg/prompting/__init__.py",
+    "destination": "lrg/prompting/__init__.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "response_e2e imports PromptManager",
+    "sha256": "6b082e9257205427ae92be351fd7f93ed9bda45082e6d9773dc7fe49050d3115"
+  },
+  {
+    "source": "lrg/prompting/prompt_manager.py",
+    "destination": "lrg/prompting/prompt_manager.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "Prompt/schema loading, enum and rendering",
+    "sha256": "d37346ca963a51efa4b04040adfb7374ec2a100e7311d6c7dc180e5e93e85fc0"
+  },
+  {
+    "source": "lrg/llm/__init__.py",
+    "destination": "lrg/llm/__init__.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "init_llm Qwen routing",
+    "sha256": "7825d331bb52abf5f4e114c5a8a4fec8f0a16393f3e93cf5b79bf7ce2e41cab0"
+  },
+  {
+    "source": "lrg/llm/collections/openai/__init__.py",
+    "destination": "lrg/llm/collections/openai/__init__.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "OpenAIModel and OpenAIConfig exports",
+    "sha256": "4763a78ca5a56876747f001c4af505d56a237d5b132084024d9cd106961ae10d"
+  },
+  {
+    "source": "lrg/llm/collections/openai/config.py",
+    "destination": "lrg/llm/collections/openai/config.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "Pydantic API settings",
+    "sha256": "b727ec447ec219cdaa336b72d6fe87d700f447d1426a36f0ead3b9ac50fdcfb9"
+  },
+  {
+    "source": "lrg/llm/collections/openai/model.py",
+    "destination": "lrg/llm/collections/openai/model.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "OpenAI-compatible request and parsing",
+    "sha256": "428e6a8f76f906a0d60393bcabcf833e3115b2b18f938c728da864becfff512e"
+  },
+  {
+    "source": "lrg/retrieval/__init__.py",
+    "destination": "lrg/retrieval/__init__.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "package initializer eagerly imports retrieval_init",
+    "sha256": "02b44f8e1c7bdf6a92f86461a4990d2606f3dddb116bd2359db4fed87cee097a"
+  },
+  {
+    "source": "lrg/retrieval/retrieval_init.py",
+    "destination": "lrg/retrieval/retrieval_init.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "script/response_e2e.py import closure",
+    "reason": "entry point eagerly imports init_retriever even for saved/golden",
+    "sha256": "a1fccaf32b7f291a7044924bc05f6257117c09a2e306792cc97504d58e15eee4"
+  },
+  {
+    "source": "lrg/prompting/templates/response-tax-v3-citation-id-enum/turn0.md",
+    "destination": "lrg/prompting/templates/response-tax-v3-citation-id-enum/turn0.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Active Direct template",
+    "sha256": "1b9be01b4f1a7ecf8fcfa32a44f3cf8569c22b0a5fe92709fd0b801729c74b08"
+  },
+  {
+    "source": "lrg/prompting/templates/response-wangchan/turn0.md",
+    "destination": "lrg/prompting/templates/response-wangchan/turn0.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "454d379e2dd3a58b3fecc9e9b8d7164e7df40629f5993e2c17844b8a49ebc003"
+  },
+  {
+    "source": "lrg/prompting/templates/response-wangchan/turn1.md",
+    "destination": "lrg/prompting/templates/response-wangchan/turn1.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "805ef455c3837a5e2df06f4a18213ab6f006a3ad01dd65ca6d06c619aa21adc8"
+  },
+  {
+    "source": "lrg/prompting/templates/response-wangchan/turn2.md",
+    "destination": "lrg/prompting/templates/response-wangchan/turn2.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "bd2dce91d7cef6e0bcd41cb9f46e915a748b2e01250ae2b627314fc49b94d28d"
+  },
+  {
+    "source": "lrg/prompting/templates/response-wangchan/turn3.md",
+    "destination": "lrg/prompting/templates/response-wangchan/turn3.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "6effe87f6e8a6016e5aafa8d798f8c8962d1005b9ab59aa13e9f5a40111a09e8"
+  },
+  {
+    "source": "lrg/prompting/templates/coverage-contradiction-tax/turn0.md",
+    "destination": "lrg/prompting/templates/coverage-contradiction-tax/turn0.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "855156332f81772615b7bca0ebcd83937f6c269cd7fbdd9d4a72071b0f1c1bf5"
+  },
+  {
+    "source": "lrg/prompting/templates/coverage-contradiction-tax/turn1.md",
+    "destination": "lrg/prompting/templates/coverage-contradiction-tax/turn1.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "0756527870ba766adc6e845a887c63ad6f10edb8ddc618fdcf318d2b71678684"
+  },
+  {
+    "source": "lrg/prompting/templates/coverage-contradiction-tax/turn2.md",
+    "destination": "lrg/prompting/templates/coverage-contradiction-tax/turn2.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "3d0e47497aefc1620f5349cc9354a5368f3946069dd19608aaf3f1e705cd53b8"
+  },
+  {
+    "source": "lrg/prompting/templates/coverage-contradiction-tax/turn3.md",
+    "destination": "lrg/prompting/templates/coverage-contradiction-tax/turn3.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "e15d65afb4df8ea502478b7b1834c95e6ed5299a668b8d9f2faa6eb84f098181"
+  },
+  {
+    "source": "lrg/prompting/templates/coverage-contradiction-tax/turn4.md",
+    "destination": "lrg/prompting/templates/coverage-contradiction-tax/turn4.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "a07b4024d904bd6b5c967150b744ac0c36ff31844fa5fc21ca0ba85d85d491ce"
+  },
+  {
+    "source": "lrg/prompting/templates/coverage-contradiction-wangchan/turn0.md",
+    "destination": "lrg/prompting/templates/coverage-contradiction-wangchan/turn0.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "ec1937f3735a7c8d5952f432d71e2136226a24101ac88df374502895b14336f4"
+  },
+  {
+    "source": "lrg/prompting/templates/coverage-contradiction-wangchan/turn1.md",
+    "destination": "lrg/prompting/templates/coverage-contradiction-wangchan/turn1.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "222c266836e0879214868ef1aed054d7e2df117c0ed97b1273714f752bf04776"
+  },
+  {
+    "source": "lrg/prompting/templates/coverage-contradiction-wangchan/turn2.md",
+    "destination": "lrg/prompting/templates/coverage-contradiction-wangchan/turn2.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "628d0f4080d44c080ee8e6e0745b3ff71a7c8426c89cd7733a52a64c603694e5"
+  },
+  {
+    "source": "lrg/prompting/templates/coverage-contradiction-wangchan/turn3.md",
+    "destination": "lrg/prompting/templates/coverage-contradiction-wangchan/turn3.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "df85fc1895e229de14a9e8da54fdeb11eabeece5768beb80a10016a39725199e"
+  },
+  {
+    "source": "lrg/prompting/templates/coverage-contradiction-wangchan/turn4.md",
+    "destination": "lrg/prompting/templates/coverage-contradiction-wangchan/turn4.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "01f9131fd93b8ca805f4f696cd4be57883974fcd9be9d982ca548a32f238dc35"
+  },
+  {
+    "source": "lrg/prompting/templates/response-long-tax/turn0.md",
+    "destination": "lrg/prompting/templates/response-long-tax/turn0.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "357136c2d80bd0630370c6a92ba194d3a68448b5d6dcd0e9ebb448c646779807"
+  },
+  {
+    "source": "lrg/prompting/templates/response-long-tax/turn1.md",
+    "destination": "lrg/prompting/templates/response-long-tax/turn1.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "86cf47ee14ceeb8464e7d6f06ffe816098bfd1e23cb7c103df4e4e42c149289d"
+  },
+  {
+    "source": "lrg/prompting/templates/response-long-tax/turn2.md",
+    "destination": "lrg/prompting/templates/response-long-tax/turn2.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "4bac687c54297f894ac15f537486080dd3427baec8fb56f6cdd8a1d6d2387043"
+  },
+  {
+    "source": "lrg/prompting/templates/response-long-tax/turn3.md",
+    "destination": "lrg/prompting/templates/response-long-tax/turn3.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "7a1b428bd52b4aada6088155e3d66cc90d6646dcbca319c33afba40e6b394daf"
+  },
+  {
+    "source": "lrg/prompting/templates/response-long-wangchan/turn0.md",
+    "destination": "lrg/prompting/templates/response-long-wangchan/turn0.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "d72a48fa8b9ad6fb94a8db32b027998667eb1e48229a37897846c721d7e2801e"
+  },
+  {
+    "source": "lrg/prompting/templates/response-long-wangchan/turn1.md",
+    "destination": "lrg/prompting/templates/response-long-wangchan/turn1.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "d0b8cb28498274d2fa14e8377cf67dcdde129d0bec1507ae89381cebdd798ca8"
+  },
+  {
+    "source": "lrg/prompting/templates/response-long-wangchan/turn2.md",
+    "destination": "lrg/prompting/templates/response-long-wangchan/turn2.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "e534a4beec914f7498c2f6465004172bb5ae967a4d2d59798dc912267e27c547"
+  },
+  {
+    "source": "lrg/prompting/templates/response-long-wangchan/turn3.md",
+    "destination": "lrg/prompting/templates/response-long-wangchan/turn3.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "364428f2910d9a4c28b4f3bcea9aa7bd55f33e23b0e7444af434d97ee1f3cd80"
+  },
+  {
+    "source": "lrg/prompting/templates/response-pure-tax/turn0.md",
+    "destination": "lrg/prompting/templates/response-pure-tax/turn0.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "fb398c82e4cc779dc583c1e55ae4708c292c6edba7b6015bd4af5c861d245a00"
+  },
+  {
+    "source": "lrg/prompting/templates/response-pure-tax/turn1.md",
+    "destination": "lrg/prompting/templates/response-pure-tax/turn1.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "86cf47ee14ceeb8464e7d6f06ffe816098bfd1e23cb7c103df4e4e42c149289d"
+  },
+  {
+    "source": "lrg/prompting/templates/response-pure-tax/turn2.md",
+    "destination": "lrg/prompting/templates/response-pure-tax/turn2.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "4bac687c54297f894ac15f537486080dd3427baec8fb56f6cdd8a1d6d2387043"
+  },
+  {
+    "source": "lrg/prompting/templates/response-pure-tax/turn3.md",
+    "destination": "lrg/prompting/templates/response-pure-tax/turn3.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "7a1b428bd52b4aada6088155e3d66cc90d6646dcbca319c33afba40e6b394daf"
+  },
+  {
+    "source": "lrg/prompting/templates/response-pure-wangchan/turn0.md",
+    "destination": "lrg/prompting/templates/response-pure-wangchan/turn0.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "5e40364562f1c73576eb56bd2a97915abd596da1221b1679bc21325d2fb44b04"
+  },
+  {
+    "source": "lrg/prompting/templates/response-pure-wangchan/turn1.md",
+    "destination": "lrg/prompting/templates/response-pure-wangchan/turn1.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "d0b8cb28498274d2fa14e8377cf67dcdde129d0bec1507ae89381cebdd798ca8"
+  },
+  {
+    "source": "lrg/prompting/templates/response-pure-wangchan/turn2.md",
+    "destination": "lrg/prompting/templates/response-pure-wangchan/turn2.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "e534a4beec914f7498c2f6465004172bb5ae967a4d2d59798dc912267e27c547"
+  },
+  {
+    "source": "lrg/prompting/templates/response-pure-wangchan/turn3.md",
+    "destination": "lrg/prompting/templates/response-pure-wangchan/turn3.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "364428f2910d9a4c28b4f3bcea9aa7bd55f33e23b0e7444af434d97ee1f3cd80"
+  },
+  {
+    "source": "lrg/prompting/templates/response-o1-tax/turn0.md",
+    "destination": "lrg/prompting/templates/response-o1-tax/turn0.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "115b8385a5b47ccf86fb2637ce767a118b6de30b214dd66ccbec20243309cf85"
+  },
+  {
+    "source": "lrg/prompting/templates/response-o1-wangchan/turn0.md",
+    "destination": "lrg/prompting/templates/response-o1-wangchan/turn0.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Eager template catalog dependency; not a supported clean experiment",
+    "sha256": "e5b84906f202d1ac927a85dc0f300837617c8a3570fb42019fff55cd74365e3f"
+  },
+  {
+    "source": "lrg/prompting/templates/default_query.md",
+    "destination": "lrg/prompting/templates/default_query.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager/Jinja",
+    "reason": "Loaded constructor template or active Direct system prompt",
+    "sha256": "f4023a1871cb99d2440fbb52b2c99254399e86b9c57fd04aa2ba52ab241c0d02"
+  },
+  {
+    "source": "lrg/prompting/templates/o1_query.md",
+    "destination": "lrg/prompting/templates/o1_query.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager/Jinja",
+    "reason": "Loaded constructor template or active Direct system prompt",
+    "sha256": "d952215d54b794933bc770509dd7d1441ad930e5b2b452238a651d162e24f9b9"
+  },
+  {
+    "source": "lrg/prompting/templates/system_prompt_tax_v3_citation_id_enum.md",
+    "destination": "lrg/prompting/templates/system_prompt_tax_v3_citation_id_enum.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager/Jinja",
+    "reason": "Loaded constructor template or active Direct system prompt",
+    "sha256": "b7fb0ab9b818d8c051b394d9a1f5a0b0e16c9995ab0bedd6edcdfdc7ac277aff"
+  },
+  {
+    "source": "lrg/prompting/structured_outputs/system_response_v3_citation_id.json",
+    "destination": "lrg/prompting/structured_outputs/system_response_v3_citation_id.json",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Active response schema or eager evaluation schema dependency",
+    "sha256": "89e9fbe9de4e001fe4bd038d6e0d2d1cc96cae9febe5e48762b9e099a7ecfba4"
+  },
+  {
+    "source": "lrg/prompting/structured_outputs/system_eval.json",
+    "destination": "lrg/prompting/structured_outputs/system_eval.json",
+    "category": "REQUIRED RUNTIME",
+    "caller": "PromptManager._init_template()",
+    "reason": "Active response schema or eager evaluation schema dependency",
+    "sha256": "c2fb672155d54fa1715ec6d7594c137fc54dd63fee948c9720ef835ec903414a"
+  },
+  {
+    "source": "config/local/response/section_based_rag_qwen_direct_v3_citation_id_enum_engineering_10.yaml",
+    "destination": "config/local/response/section_based_rag_qwen_direct_v3_citation_id_enum_engineering_10.yaml",
+    "category": "REQUIRED CONFIG",
+    "caller": "response_e2e.main()",
+    "reason": "Unchanged current Direct engineering or existing one-item diagnostic",
+    "sha256": "534aff9ba1258b36dc6fd59ab1c9af617a8af809cf4cf863bd92460a772d3820"
+  },
+  {
+    "source": "config/local/response/golden_qwen_direct_v3_citation_id_enum_engineering_10.yaml",
+    "destination": "config/local/response/golden_qwen_direct_v3_citation_id_enum_engineering_10.yaml",
+    "category": "REQUIRED CONFIG",
+    "caller": "response_e2e.main()",
+    "reason": "Unchanged current Direct engineering or existing one-item diagnostic",
+    "sha256": "bd8c0205153f9abb9cb7f1d8aafef115c50e91626f1af4dca5a796d05f245cf1"
+  },
+  {
+    "source": "config/local/response/section_based_rag_qwen_direct_v3_citation_id_enum_diagnostic_source_0023.yaml",
+    "destination": "config/local/response/section_based_rag_qwen_direct_v3_citation_id_enum_diagnostic_source_0023.yaml",
+    "category": "REQUIRED CONFIG",
+    "caller": "response_e2e.main()",
+    "reason": "Unchanged current Direct engineering or existing one-item diagnostic",
+    "sha256": "a0b270c50883527bcb639b7b5ed9697033c999f92282b4e4f6953a650af39199"
+  },
+  {
+    "source": "config/local/response/golden_qwen_direct_v3_citation_id_enum_diagnostic_source_0008.yaml",
+    "destination": "config/local/response/golden_qwen_direct_v3_citation_id_enum_diagnostic_source_0008.yaml",
+    "category": "REQUIRED CONFIG",
+    "caller": "response_e2e.main()",
+    "reason": "Unchanged current Direct engineering or existing one-item diagnostic",
+    "sha256": "d244e4711d1c0f3b82c7d51daa0b9e3c160fb1a0374b72a7e4aee3bdff9a22c5"
+  },
+  {
+    "source": "chunking/golden/nodes.json",
+    "destination": "chunking/golden/nodes.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset/config; split provenance",
+    "reason": "Both: TextNodes and exact provision lookup",
+    "sha256": "48c1c7aff0226753de68141b3a59c2165f78923a540f6b46815339c9692a44b4"
+  },
+  {
+    "source": "dump/section_idx.json",
+    "destination": "dump/section_idx.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset/config; split provenance",
+    "reason": "Both: EvalDataset constructor reads unconditionally",
+    "sha256": "61d89e7ab2ee2a67c0a1217d14e0740a0d91fa335dbb88c88b02a546939f968c"
+  },
+  {
+    "source": "data_splits/tax_engineering_10.csv",
+    "destination": "data_splits/tax_engineering_10.csv",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset/config; split provenance",
+    "reason": "Both: active engineering selection",
+    "sha256": "40d3af4f13b407aaac9f54f598c8ce79b195a8591f548d7822bd8055fc763bc5"
+  },
+  {
+    "source": "data_splits/tax_heldout_40.csv",
+    "destination": "data_splits/tax_heldout_40.csv",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset/config; split provenance",
+    "reason": "Reserved final split; count only, no answer inspection",
+    "sha256": "732b3ee8bdf909324d67995819ad3242490c1f96e1aa6731cd6aca0b024279f6"
+  },
+  {
+    "source": "test_data/hf_tax.csv",
+    "destination": "test_data/hf_tax.csv",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset/config; split provenance",
+    "reason": "Raw dataset provenance; not loaded by selected configs",
+    "sha256": "ba622436f9cd83d7ecd5c5a1f6cc1f5037c030295dca5d91eae135057e235c89"
+  },
+  {
+    "source": "test_data/laws/ก0028-1B-0001.json",
+    "destination": "test_data/laws/ก0028-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "887eec4ba45e7c3bc39aad2b4826c11cbdced21ed44667fc86287d1af23515d0"
+  },
+  {
+    "source": "test_data/laws/ก0039-1B-0002.json",
+    "destination": "test_data/laws/ก0039-1B-0002.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "135b2a5dad706355ead1eb6e395818f84d655002ac3654a61d27c001d14a0544"
+  },
+  {
+    "source": "test_data/laws/ก0070-1B-0003.json",
+    "destination": "test_data/laws/ก0070-1B-0003.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "8ad1e9d4d170d38d98b6225578b4f738e6e5e9b840de7345c78be4d139419a85"
+  },
+  {
+    "source": "test_data/laws/ก0102-1B-0001.json",
+    "destination": "test_data/laws/ก0102-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "9e856dda83c16e615af0352ed318b96f52cf4b4a20d0e6b70ce201bf321a0b17"
+  },
+  {
+    "source": "test_data/laws/ก0104-1B-0001.json",
+    "destination": "test_data/laws/ก0104-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "55be6d85ab364aaf132eafbfdebb27e1788950b24cf2d4b370cc8c6a1b5741e1"
+  },
+  {
+    "source": "test_data/laws/ก0106-1B-0001.json",
+    "destination": "test_data/laws/ก0106-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "da2674c34dbfd2f9c8461e7e71bd6812b676c17257a210ed2d07f2362c1186ab"
+  },
+  {
+    "source": "test_data/laws/ก0123-1B-0001.json",
+    "destination": "test_data/laws/ก0123-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "b7fb1fd931d15b5944637f7db04e7af4b5b6d48a53e30f2293359ba5cbf28e67"
+  },
+  {
+    "source": "test_data/laws/ก0164-1B-0001.json",
+    "destination": "test_data/laws/ก0164-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "6a26f55f2b188eac6493e29bdb09df540d0b7870e421007ec3acf581e2eded44"
+  },
+  {
+    "source": "test_data/laws/ก0173-1C-0001.json",
+    "destination": "test_data/laws/ก0173-1C-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "4cb429a3546999ad2a867f7b7ab35c4120845d23c8bc2f4b1ffbcfa2e984f3ce"
+  },
+  {
+    "source": "test_data/laws/ก0178-1B-0001.json",
+    "destination": "test_data/laws/ก0178-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "00502edfe44d37d00cc38c9e4eead8ecf0e90bf60359de8f91bef4aec8439a25"
+  },
+  {
+    "source": "test_data/laws/ก0185-1B-0001.json",
+    "destination": "test_data/laws/ก0185-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "568e4f561c99c443506f02391aa21234b9daf41f3ba82dae0f1323f7c001585b"
+  },
+  {
+    "source": "test_data/laws/ค0031-1B-0001.json",
+    "destination": "test_data/laws/ค0031-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "1408907bcc92efe255bc42194788535c0216ac81bc9bb001b588c114cb2eaa7c"
+  },
+  {
+    "source": "test_data/laws/ท0002-1B-0001.json",
+    "destination": "test_data/laws/ท0002-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "e4a5b1b158e959ae1b5313a85fe30bd50a38de8885d94ba0325b91161a3e2a2a"
+  },
+  {
+    "source": "test_data/laws/ท0009-1B-0001.json",
+    "destination": "test_data/laws/ท0009-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "396fd7a674eb3c8392f467c960f91fde3a91b3d680169bb3c07d97014af55dc1"
+  },
+  {
+    "source": "test_data/laws/ท0010-1B-0001.json",
+    "destination": "test_data/laws/ท0010-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "162970e18c796f5536d0a2afccb9642ee0a1a1bfd194bcfc128f198c5a0fb6df"
+  },
+  {
+    "source": "test_data/laws/ธ0012-1B-0001.json",
+    "destination": "test_data/laws/ธ0012-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "4cf9f1f9343c952e3fa71b88573060ba59094a8e1d201e1dc82c2e08e37f2cb1"
+  },
+  {
+    "source": "test_data/laws/น0002-1C-0001.json",
+    "destination": "test_data/laws/น0002-1C-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "d4c4b01c3f27e6008198116376ac0dd4c69901ad5cf80b2cdfd5264811843385"
+  },
+  {
+    "source": "test_data/laws/บ0011-1B-0001.json",
+    "destination": "test_data/laws/บ0011-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "f663c5649d98dc733e738e3faea437c26b392b251d0cb7e2dee08bb8a1a03ae8"
+  },
+  {
+    "source": "test_data/laws/ป0003-1D-0002.json",
+    "destination": "test_data/laws/ป0003-1D-0002.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "ef040c93efd69a6f25a4180b709d8ec2f7d735271d44bab8ab4ae3724d87f777"
+  },
+  {
+    "source": "test_data/laws/ป0008-1D-0001.json",
+    "destination": "test_data/laws/ป0008-1D-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "e8f3f200d31c1f8c0309087605ee57fe6feb52921034807d0b373c5eeb88f557"
+  },
+  {
+    "source": "test_data/laws/ป0043-1A-0001.json",
+    "destination": "test_data/laws/ป0043-1A-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "e3491e896e46d347f6e25c9f37b042d2a34c640baf595d4e40d84654739a7cf7"
+  },
+  {
+    "source": "test_data/laws/ภ0002-1B-0001.json",
+    "destination": "test_data/laws/ภ0002-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "ddada196a4aeddd1d23c10318e718643c1aa47f92576158a44908dbebd91509e"
+  },
+  {
+    "source": "test_data/laws/ย0022-1B-0001.json",
+    "destination": "test_data/laws/ย0022-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "01915c68081335b55bf2f9bdcc9abeefb3319fa4a1e3701c2a3f31f944cff1e1"
+  },
+  {
+    "source": "test_data/laws/ร0043-1B-0001.json",
+    "destination": "test_data/laws/ร0043-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "8008b7bfa79cef3f56021fe1736a2048d3926b678a6aba799ec2b5bfb611b27e"
+  },
+  {
+    "source": "test_data/laws/ว0008-1B-0001.json",
+    "destination": "test_data/laws/ว0008-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "ae96b628a077194620af498136b40d4cff4ed2ab8386491d1a2ffa0b8d52e7c0"
+  },
+  {
+    "source": "test_data/laws/ว0016-1B-0001.json",
+    "destination": "test_data/laws/ว0016-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "2c3f861285db49f45602e59f31b63557281869e87d0a5d053befab9693aefef0"
+  },
+  {
+    "source": "test_data/laws/ว0029-1B-0001.json",
+    "destination": "test_data/laws/ว0029-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "459b729c3b416d887b8212162984bbd6d456763844b8cdfbc47c763e5c9b016c"
+  },
+  {
+    "source": "test_data/laws/ว0033-1B-0001.json",
+    "destination": "test_data/laws/ว0033-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "568082c96da05c7464f4f9a630daacbdb28f2d2a854f00a06c323fa9a67888d3"
+  },
+  {
+    "source": "test_data/laws/ว0067-1B-0001.json",
+    "destination": "test_data/laws/ว0067-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "95d61a21a15c690f6403f2b6b05993e00b07cc8394b693428a1132ed10ebb1e1"
+  },
+  {
+    "source": "test_data/laws/ว0083-1B-0001.json",
+    "destination": "test_data/laws/ว0083-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "36520e94f6a384d589d2993aaada998ab85be57d4fc6ea1cb587eeb4f6f016ff"
+  },
+  {
+    "source": "test_data/laws/ส0022-1B-0001.json",
+    "destination": "test_data/laws/ส0022-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "8c4cb966b5187bebaada6756c8891806f8e622c333fce0c8990e8876e04eff18"
+  },
+  {
+    "source": "test_data/laws/ส0065-1B-0001.json",
+    "destination": "test_data/laws/ส0065-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "6c84d2a3940ffcc2e44bcd0a3131278379997f6de65d3e51aca8bf619f0b6dde"
+  },
+  {
+    "source": "test_data/laws/ส0095-1B-0001.json",
+    "destination": "test_data/laws/ส0095-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "79a993145e01e3784c4abff88fc4ee899513681a4f65ce1049cf9fb5b9ca10aa"
+  },
+  {
+    "source": "test_data/laws/ห0002-1B-0001.json",
+    "destination": "test_data/laws/ห0002-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "ac9618365546849f2657ae09efd86c4eecaa8ace079ea05365326687436074b7"
+  },
+  {
+    "source": "test_data/laws/ห0015-1B-0002.json",
+    "destination": "test_data/laws/ห0015-1B-0002.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "c4458e00817bc1a3f96c5656b8fe6fb4a9d8f6a3067a044d6689b8eb38cb0214"
+  },
+  {
+    "source": "test_data/laws/ห0060-1B-0001.json",
+    "destination": "test_data/laws/ห0060-1B-0001.json",
+    "category": "REQUIRED DATA",
+    "caller": "EvalDataset.set_law()/convert_to_qa()",
+    "reason": "Both: full law catalog loaded unconditionally",
+    "sha256": "902a9cdf6efd3af86b8615fc29fe9c832d82b56ece7633e712de2b4910925902"
+  },
+  {
+    "source": "results/current/retrieval_evaluation/section_based_no_ref/retrieval_results.json",
+    "destination": "results/current/retrieval_evaluation/section_based_no_ref/retrieval_results.json",
+    "category": "REQUIRED ARTIFACT",
+    "caller": "init_saved_retriever()",
+    "reason": "Retrieved: pre-existing saved top-10 input; original path retained",
+    "sha256": "f00ea86071425be0612a31837eebaf51cba34cd1cf4286f6ccd33e1eb7004080"
+  },
+  {
+    "source": "tools/evaluation/audit_common_interface_v3_citation_id.py",
+    "destination": "tools/evaluation/audit_common_interface_v3_citation_id.py",
+    "category": "OPTIONAL TOOLS",
+    "caller": "Manual offline audit",
+    "reason": "Current interface audit, unchanged",
+    "sha256": "34b5d3cbbd62d81a1b1ece14fb737f73a0ffae2ae0b323b5e326fe8aaecb24c9"
+  },
+  {
+    "source": "results/current/common_interface_v3/section_based_direct_citation_id_enum_engineering_10/chunk-human-finetuned-bge-m3-no-ref-qwen/tax_response.json",
+    "destination": "reference_results/section_based_direct_citation_id_enum_engineering_10/chunk-human-finetuned-bge-m3-no-ref-qwen/tax_response.json",
+    "category": "OPTIONAL TOOLS",
+    "caller": "Future clean reproduction comparison",
+    "reason": "Engineering references only; never a resume input",
+    "sha256": "385f21f89182e39faeb9f743a9a4ce64756a5e5772fd14142e01b87f8bdc3ff0"
+  },
+  {
+    "source": "results/current/common_interface_v3/section_based_direct_citation_id_enum_engineering_10/audit/response_quality.json",
+    "destination": "reference_results/section_based_direct_citation_id_enum_engineering_10/audit/response_quality.json",
+    "category": "OPTIONAL TOOLS",
+    "caller": "Future clean reproduction comparison",
+    "reason": "Engineering references only; never a resume input",
+    "sha256": "3a25334b3a90b44bf41b084a81e59d8de1e2683b4478360c0b51485c6f8ea4db"
+  },
+  {
+    "source": "results/current/common_interface_v3/section_based_direct_citation_id_enum_engineering_10/audit/response_quality.md",
+    "destination": "reference_results/section_based_direct_citation_id_enum_engineering_10/audit/response_quality.md",
+    "category": "OPTIONAL TOOLS",
+    "caller": "Future clean reproduction comparison",
+    "reason": "Engineering references only; never a resume input",
+    "sha256": "ced461b81fb961983c1e477d584e9c8c1156dad029f74504f8837ed40ca5ccad"
+  },
+  {
+    "source": "results/current/common_interface_v3/golden_direct_citation_id_enum_engineering_10/chunk-golden-no-ref-qwen/tax_response.json",
+    "destination": "reference_results/golden_direct_citation_id_enum_engineering_10/chunk-golden-no-ref-qwen/tax_response.json",
+    "category": "OPTIONAL TOOLS",
+    "caller": "Future clean reproduction comparison",
+    "reason": "Engineering references only; never a resume input",
+    "sha256": "ec613660313d7fb22388935dd4a6dc91a546c0eef9f9816a04e1aed47f065eae"
+  },
+  {
+    "source": "results/current/common_interface_v3/golden_direct_citation_id_enum_engineering_10/audit/response_quality.json",
+    "destination": "reference_results/golden_direct_citation_id_enum_engineering_10/audit/response_quality.json",
+    "category": "OPTIONAL TOOLS",
+    "caller": "Future clean reproduction comparison",
+    "reason": "Engineering references only; never a resume input",
+    "sha256": "8552115baa169ce5c85630c43ee8c8fb8a4d3ba8743b4ccd16f017d779b5d1e2"
+  },
+  {
+    "source": "results/current/common_interface_v3/golden_direct_citation_id_enum_engineering_10/audit/response_quality.md",
+    "destination": "reference_results/golden_direct_citation_id_enum_engineering_10/audit/response_quality.md",
+    "category": "OPTIONAL TOOLS",
+    "caller": "Future clean reproduction comparison",
+    "reason": "Engineering references only; never a resume input",
+    "sha256": "6af371920d70136f00d86ba44495ba70be49140eb76e1a6b74b0e525dc59ae11"
+  },
+  {
+    "source": "llama_index/llama-index-integrations/indices/llama-index-indices-managed-bge-m3/pyproject.toml",
+    "destination": "vendor/llama-index-indices-managed-bge-m3/pyproject.toml",
+    "category": "REQUIRED RUNTIME",
+    "caller": "retrieval_init -> BGEM3Index",
+    "reason": "Local editable integration identified in source package metadata; no index built",
+    "sha256": "2cfa4876e29032985f82eee4db45782feef2731f90ec03ed77eb85cc558faadf"
+  },
+  {
+    "source": "llama_index/llama-index-integrations/indices/llama-index-indices-managed-bge-m3/README.md",
+    "destination": "vendor/llama-index-indices-managed-bge-m3/README.md",
+    "category": "REQUIRED RUNTIME",
+    "caller": "retrieval_init -> BGEM3Index",
+    "reason": "Local editable integration identified in source package metadata; no index built",
+    "sha256": "431a88cd69265584c8e2e4bbe67a769aba85e230bcd2be693c42e3fc6cd0170a"
+  },
+  {
+    "source": "llama_index/llama-index-integrations/indices/llama-index-indices-managed-bge-m3/llama_index/indices/managed/bge_m3/__init__.py",
+    "destination": "vendor/llama-index-indices-managed-bge-m3/llama_index/indices/managed/bge_m3/__init__.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "retrieval_init -> BGEM3Index",
+    "reason": "Local editable integration identified in source package metadata; no index built",
+    "sha256": "8f44297aae044078b4ab30b14630d51cbdd0e2833fccd47c0e48aa26659e1a2e"
+  },
+  {
+    "source": "llama_index/llama-index-integrations/indices/llama-index-indices-managed-bge-m3/llama_index/indices/managed/bge_m3/base.py",
+    "destination": "vendor/llama-index-indices-managed-bge-m3/llama_index/indices/managed/bge_m3/base.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "retrieval_init -> BGEM3Index",
+    "reason": "Local editable integration identified in source package metadata; no index built",
+    "sha256": "0364c6768a79c92910b59e2eaa971f5113d5c237436ab5aff6c22b3c3a9ebd46"
+  },
+  {
+    "source": "llama_index/llama-index-integrations/indices/llama-index-indices-managed-bge-m3/llama_index/indices/managed/bge_m3/retriever.py",
+    "destination": "vendor/llama-index-indices-managed-bge-m3/llama_index/indices/managed/bge_m3/retriever.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "retrieval_init -> BGEM3Index",
+    "reason": "Local editable integration identified in source package metadata; no index built",
+    "sha256": "2af59d6155eb0f382d1e9ffc30b0bfba1bf64af15d9871c66e6f9eaba7144ea2"
+  },
+  {
+    "source": "llama_index/LICENSE",
+    "destination": "vendor/llama-index-indices-managed-bge-m3/LICENSE",
+    "category": "REQUIRED RUNTIME",
+    "caller": "Vendor license",
+    "reason": "Preserve upstream license",
+    "sha256": "1f1e8603078815f3260a10d73e6936ad6ff0f261e125704a3f90272eea48fb3e"
+  },
+  {
+    "source": "llama_index/llama-index-core/llama_index/core/base/base_retriever.py",
+    "destination": "vendor/core_overrides/llama_index/core/base/base_retriever.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "Editable source core / Docker overlay convention",
+    "reason": "Known source core modifications; apply only inside new environment",
+    "sha256": "d1c01bd4479e70a57dc6534619cee0aae8b0dc430befe6f6c6543a15aafc731d"
+  },
+  {
+    "source": "llama_index/llama-index-core/llama_index/core/evaluation/retrieval/base.py",
+    "destination": "vendor/core_overrides/llama_index/core/evaluation/retrieval/base.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "Editable source core / Docker overlay convention",
+    "reason": "Known source core modifications; apply only inside new environment",
+    "sha256": "6b6ec9da99dafb203a5cee7cbf162fabc5f4e8ffcb2073d105c8c0a27cb9abcf"
+  },
+  {
+    "source": "llama_index/llama-index-core/llama_index/core/evaluation/retrieval/metrics.py",
+    "destination": "vendor/core_overrides/llama_index/core/evaluation/retrieval/metrics.py",
+    "category": "REQUIRED RUNTIME",
+    "caller": "Editable source core / Docker overlay convention",
+    "reason": "Known source core modifications; apply only inside new environment",
+    "sha256": "353e585a6365581835f10e219470a8ded06e01d2a9c148a7ab07604ae154438a"
+  },
+  {
+    "source": "llama_index/llama-index-core/LICENSE",
+    "destination": "vendor/core_overrides/LICENSE",
+    "category": "REQUIRED RUNTIME",
+    "caller": "Vendor license",
+    "reason": "Preserve upstream license",
+    "sha256": "1f1e8603078815f3260a10d73e6936ad6ff0f261e125704a3f90272eea48fb3e"
+  }
+]

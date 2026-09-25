@@ -1,0 +1,33 @@
+ M baseline_runner.py
+ M lrg/augmenter/augmenter.py
+ M lrg/data/data_init.py
+ M lrg/e2e/ragger.py
+ M lrg/llm/__init__.py
+ M lrg/llm/collections/openai/model.py
+ M lrg/prompting/prompt_manager.py
+ M lrg/prompting/structured_outputs/system_response.json
+ M lrg/prompting/templates/response-tax/turn0.md
+ M lrg/retrieval/__init__.py
+ M lrg/retrieval/retrieval_init.py
+ M requirements.txt
+ M script/metric_e2e.py
+ M script/response_e2e.py
+?? .venv_broken_backup/
+?? NitiBench_Project_Handoff_2026-09-17.md
+?? backups/
+?? config/local/
+?? data_splits/
+?? docs/
+?? llama_index/
+?? lrg/prompting/structured_outputs/system_response_v3.json
+?? lrg/prompting/structured_outputs/system_response_v3_citation_id.json
+?? lrg/prompting/templates/response-tax-v2/
+?? lrg/prompting/templates/response-tax-v3-citation-id-enum/
+?? lrg/prompting/templates/response-tax-v3-citation-id/
+?? lrg/prompting/templates/response-tax-v3/
+?? lrg/prompting/templates/system_prompt_tax_v3.md
+?? lrg/prompting/templates/system_prompt_tax_v3_citation_id.md
+?? lrg/prompting/templates/system_prompt_tax_v3_citation_id_enum.md
+?? test_data/experiments/
+?? tests/
+?? tools/

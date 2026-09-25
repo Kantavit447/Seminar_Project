@@ -1,0 +1,14 @@
+# Direct generation only; source application pins retained verbatim.
+# Additional versions come from source package metadata / Dockerfile.
+# This is a reviewed starting set, NOT a resolved environment lock.
+pandas==2.2.2
+numpy==1.26.4
+pydantic==2.8.2
+openai==1.61.1
+jinja2==3.1.4
+python-dotenv==1.0.1
+PyYAML==6.0.3
+tqdm==4.69.0
+typing_extensions==4.16.0
+torch==2.2.0
+llama-index-core==0.12.19

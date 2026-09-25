@@ -1,0 +1,9 @@
+{
+  "run_name": "openthai_rag_tax_50",
+  "dataset": "data\\nitibench_tax_50.csv",
+  "limit": null,
+  "indices": null,
+  "all": true,
+  "selected": 50,
+  "started_at": "2026-08-19T18:13:30.359948+00:00"
+}

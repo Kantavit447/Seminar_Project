@@ -1,0 +1,10 @@
+<user> <question> คู่สัญญาสามารถเรียกร้องอะไรได้บ้างหากรู้ว่าผู้บังคับหลักประกันไม่เป็นกลาง </question>
+<reference_answer> คู่สัญญาสามารถเรียกร้องได้โดยยื่นคำร้องต่อศาลเพื่อมีคำสั่งให้ผู้บังคับหลักประกันพ้นจากตำแหน่ง ตามมาตรา 76 ของพระราชบัญญัติหลักประกันทางธุรกิจ พ.ศ. 2558. </reference_answer>
+<student_answer> คู่สัญญาสามารถเรียกร้องให้ศาลมีคำสั่งให้ผู้บังคับหลักประกันพ้นจากตำแหน่งได้ หากพบว่าผู้บังคับหลักประกันไม่เป็นกลางหรือมีพฤติกรรมที่ไม่เหมาะสมตามมาตรา 76 ของพระราชบัญญัติหลักประกันทางธุรกิจ พ.ศ. 2558 </student_answer>
+
+<assistant> ```json
+{"point_thought": "From the given reference answer, the student answer and question, both the student answer and the reference answers are making one point. I should put their points in a list",
+ "student_point": ["คู่สัญญาสามารถเรียกร้องได้โดยยื่นคำร้องต่อศาลเพื่อมีคำสั่งให้ผู้บังคับหลักประกันพ้นจากตำแหน่ง ตามมาตรา 76 ของพระราชบัญญัติหลักประกันทางธุรกิจ พ.ศ. 2558. "],
+ "reference_point": ["คู่สัญญาสามารถเรียกร้องให้ศาลมีคำสั่งให้ผู้บังคับหลักประกันพ้นจากตำแหน่งได้ หากพบว่าผู้บังคับหลักประกันไม่เป็นกลางหรือมีพฤติกรรมที่ไม่เหมาะสมตามมาตรา 76 ของพระราชบัญญัติหลักประกันทางธุรกิจ พ.ศ. 2558 "],
+"coverage": {"thought": "From the extracted points, the reference answer is only making one point which is that the contracting party can request the court to issue an order to remove the security enforcer from their position if it is found that the security enforcer is not impartial or has inappropriate behavior. The student answer is also making only one point and it is also that the contracting party can request the court to issue an order to remove the security enforcer from their position. Therefore, the student answer fully cover the reference answer and does not contain any irrelevant information. The score would be 100", "score": "full-coverage"}, "contradiction": {"thought": "From the extracted_points, there is no contradicting point that the student make and the answer does not contradict with itself at all. Therefore, the contradiction score would be 0", "score": "no-contradiction"}}
+```

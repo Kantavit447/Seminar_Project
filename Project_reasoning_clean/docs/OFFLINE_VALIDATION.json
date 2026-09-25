@@ -1,0 +1,192 @@
+[
+  {
+    "check": "Python parse/compile",
+    "status": "PASS",
+    "detail": "24 files compiled in memory; no pyc written"
+  },
+  {
+    "check": "section_based_rag_qwen_direct_v3_citation_id_enum_engineering_10.yaml: law_dir",
+    "status": "PASS",
+    "detail": "test_data/laws"
+  },
+  {
+    "check": "section_based_rag_qwen_direct_v3_citation_id_enum_engineering_10.yaml: node_path",
+    "status": "PASS",
+    "detail": "chunking/golden/nodes.json"
+  },
+  {
+    "check": "section_based_rag_qwen_direct_v3_citation_id_enum_engineering_10.yaml: tax_data_path",
+    "status": "PASS",
+    "detail": "data_splits/tax_engineering_10.csv"
+  },
+  {
+    "check": "section_based_rag_qwen_direct_v3_citation_id_enum_engineering_10.yaml: section_idx_path",
+    "status": "PASS",
+    "detail": "dump/section_idx.json"
+  },
+  {
+    "check": "section_based_rag_qwen_direct_v3_citation_id_enum_engineering_10.yaml: saved retrieval",
+    "status": "PASS",
+    "detail": "results/current/retrieval_evaluation/section_based_no_ref/retrieval_results.json"
+  },
+  {
+    "check": "section_based_rag_qwen_direct_v3_citation_id_enum_engineering_10.yaml: controls",
+    "status": "PASS",
+    "detail": "Unchanged source YAML; output dirs intentionally absent before first run"
+  },
+  {
+    "check": "golden_qwen_direct_v3_citation_id_enum_engineering_10.yaml: law_dir",
+    "status": "PASS",
+    "detail": "test_data/laws"
+  },
+  {
+    "check": "golden_qwen_direct_v3_citation_id_enum_engineering_10.yaml: node_path",
+    "status": "PASS",
+    "detail": "chunking/golden/nodes.json"
+  },
+  {
+    "check": "golden_qwen_direct_v3_citation_id_enum_engineering_10.yaml: tax_data_path",
+    "status": "PASS",
+    "detail": "data_splits/tax_engineering_10.csv"
+  },
+  {
+    "check": "golden_qwen_direct_v3_citation_id_enum_engineering_10.yaml: section_idx_path",
+    "status": "PASS",
+    "detail": "dump/section_idx.json"
+  },
+  {
+    "check": "golden_qwen_direct_v3_citation_id_enum_engineering_10.yaml: controls",
+    "status": "PASS",
+    "detail": "Unchanged source YAML; output dirs intentionally absent before first run"
+  },
+  {
+    "check": "section_based_rag_qwen_direct_v3_citation_id_enum_diagnostic_source_0023.yaml: law_dir",
+    "status": "PASS",
+    "detail": "test_data/laws"
+  },
+  {
+    "check": "section_based_rag_qwen_direct_v3_citation_id_enum_diagnostic_source_0023.yaml: node_path",
+    "status": "PASS",
+    "detail": "chunking/golden/nodes.json"
+  },
+  {
+    "check": "section_based_rag_qwen_direct_v3_citation_id_enum_diagnostic_source_0023.yaml: tax_data_path",
+    "status": "PASS",
+    "detail": "data_splits/tax_engineering_10.csv"
+  },
+  {
+    "check": "section_based_rag_qwen_direct_v3_citation_id_enum_diagnostic_source_0023.yaml: section_idx_path",
+    "status": "PASS",
+    "detail": "dump/section_idx.json"
+  },
+  {
+    "check": "section_based_rag_qwen_direct_v3_citation_id_enum_diagnostic_source_0023.yaml: saved retrieval",
+    "status": "PASS",
+    "detail": "results/current/retrieval_evaluation/section_based_no_ref/retrieval_results.json"
+  },
+  {
+    "check": "section_based_rag_qwen_direct_v3_citation_id_enum_diagnostic_source_0023.yaml: controls",
+    "status": "PASS",
+    "detail": "Unchanged source YAML; output dirs intentionally absent before first run"
+  },
+  {
+    "check": "golden_qwen_direct_v3_citation_id_enum_diagnostic_source_0008.yaml: law_dir",
+    "status": "PASS",
+    "detail": "test_data/laws"
+  },
+  {
+    "check": "golden_qwen_direct_v3_citation_id_enum_diagnostic_source_0008.yaml: node_path",
+    "status": "PASS",
+    "detail": "chunking/golden/nodes.json"
+  },
+  {
+    "check": "golden_qwen_direct_v3_citation_id_enum_diagnostic_source_0008.yaml: tax_data_path",
+    "status": "PASS",
+    "detail": "data_splits/tax_engineering_10.csv"
+  },
+  {
+    "check": "golden_qwen_direct_v3_citation_id_enum_diagnostic_source_0008.yaml: section_idx_path",
+    "status": "PASS",
+    "detail": "dump/section_idx.json"
+  },
+  {
+    "check": "golden_qwen_direct_v3_citation_id_enum_diagnostic_source_0008.yaml: controls",
+    "status": "PASS",
+    "detail": "Unchanged source YAML; output dirs intentionally absent before first run"
+  },
+  {
+    "check": "Engineering split",
+    "status": "PASS",
+    "detail": "0000,0001,0002,0003,0008,0023,0026,0036,0041,0046"
+  },
+  {
+    "check": "Held-out row count",
+    "status": "PASS",
+    "detail": "40 rows; no answers/results inspected"
+  },
+  {
+    "check": "Golden nodes",
+    "status": "PASS",
+    "detail": "5127 unique nodes"
+  },
+  {
+    "check": "Saved artifact structure",
+    "status": "PASS",
+    "detail": "Existing artifact only; no retrieval or held-out metrics"
+  },
+  {
+    "check": "Engineering saved nodes",
+    "status": "PASS",
+    "detail": "10 unique ranked in-corpus nodes each"
+  },
+  {
+    "check": "Engineering Golden exact resolve",
+    "status": "PASS",
+    "detail": "27/27 exact node IDs; no answer read"
+  },
+  {
+    "check": "retrieved reference interface",
+    "status": "PASS",
+    "detail": "Existing engineering references match context/order/map/final citations; no inference"
+  },
+  {
+    "check": "golden reference interface",
+    "status": "PASS",
+    "detail": "Existing engineering references match context/order/map/final citations; no inference"
+  },
+  {
+    "check": "PromptManager eager catalog",
+    "status": "PASS",
+    "detail": "All constructor-required schema/template folders load with available Jinja/Pydantic; not full environment equivalence"
+  },
+  {
+    "check": "Enum ['P1', 'P2']",
+    "status": "PASS",
+    "detail": "Allowed IDs/empty case accepted; P999 rejected"
+  },
+  {
+    "check": "Enum []",
+    "status": "PASS",
+    "detail": "Allowed IDs/empty case accepted; P999 rejected"
+  },
+  {
+    "check": "Full entry-point imports",
+    "status": "NOT RUN",
+    "detail": "Clean environment intentionally not created. Available audit interpreter lacks torch/openai and does not provide the required pinned package stack. No mock imports used."
+  },
+  {
+    "check": "Copied byte identity",
+    "status": "PASS",
+    "detail": "117 copied files SHA-256 match source"
+  },
+  {
+    "check": "Source status unchanged",
+    "status": "PASS",
+    "detail": "git status --short before/after exactly equal"
+  },
+  {
+    "check": "Source filesystem unchanged",
+    "status": "PASS",
+    "detail": "All source file sizes/mtime_ns outside .git compared; copied file SHA-256 also checked"
+  }
+]
