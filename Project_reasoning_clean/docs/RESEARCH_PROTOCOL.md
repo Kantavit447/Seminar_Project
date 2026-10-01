@@ -75,6 +75,8 @@ Protocol → CoT → IRAC → Proposed → ตรึงการสร้าง�
 
 เปลี่ยนเฉพาะคำชี้นำวิธีวิเคราะห์เป็น I/R/A/C โดยคงข้อกำหนดหลักฐาน ภาษา และ interface ร่วมกัน การแบ่งหัวข้อไม่ใช่หลักฐานโดยตัวมันเองว่า reasoning ถูกต้อง
 
+ใช้ Zero-shot IRAC prompting ที่ดัดแปลงจาก Yu et al. (2022) เรียกโมเดลหนึ่งรอบ ไม่มีตัวอย่าง แบ่งสี่หัวข้อภายใน `analysis` เดิม ระยะ engineering คง Golden 16k / Saved Retrieved 32k ตาม Direct และ CoT รายละเอียด prompt, config และวิธีตรวจอยู่ใน [IRAC.md](IRAC.md)
+
 ### Proposed
 
 ใช้ร่างจาก IRAC baseline ของข้อและ context เดียวกันเป็น input ตรวจสี่แกน:
@@ -144,7 +146,7 @@ Golden ที่อนุญาต citation จากชุดเฉลยเท
 
 เมื่อไม่มีคำตอบที่ใช้ได้ ให้รายงาน generation failure, Coverage = 0 และ citation เป็นชุดว่างสำหรับการคำนวณด้านนั้น ส่วน Contradiction ให้เป็นสถานะประเมินไม่ได้และแสดงจำนวนคำตอบที่ประเมินได้กับ completion rate เสมอ ไม่ทำให้คำตอบที่หายไปกลายเป็น no-contradiction หากเป็นความล้มเหลวของผู้ประเมิน ให้แยกจาก generation failure และแก้การประเมินตามกติกาเดียวกัน ไม่แทนด้วยคะแนนเริ่มต้นเงียบ ๆ
 
-ก่อน final test ต้องตรวจ resume ด้วย source_idx และ fingerprint ของ config/prompt เพื่อไม่ผสมผลต่างเวอร์ชัน ปัจจุบัน runner เดิมยัง resume ตามจำนวนรายการ จึงใช้โฟลเดอร์ใหม่แยกแต่ละวิธี/รุ่น และต้องตรวจเรื่องนี้อีกครั้งก่อนใช้กับ final test
+ก่อน final test ต้องตรวจ resume ด้วย source_idx และ fingerprint ของ config/prompt เพื่อไม่ผสมผลต่างเวอร์ชัน ค่าเริ่มต้นของ runner ยัง resume ตามจำนวนรายการ ส่วนตัวเลือก `--continue-on-length-failure` ที่เพิ่มวันที่ 1 ต.ค. 2026 ตรวจ runtime/source ID และหลักฐาน length failure เพื่อทำเฉพาะข้อค้างใน engineering โดยคงหนึ่ง attempt ต่อข้อ รายละเอียดอยู่ใน [รายงานการรันต่อ](GOLDEN_IRAC_ENGINEERING_FAILURE_0001.md) การตรวจ fingerprint ครบชุดยังต้องทำก่อน final test และยังต้องแยกโฟลเดอร์ผลแต่ละวิธี/รุ่น
 
 บันทึก raw response, usage, เวลา, finish reason และสถานะการตัดข้อความให้เพียงพอก่อน final test ไม่ถือว่า `temperature=0` และ seed รับประกันผลเหมือนเดิมทุกเครื่อง
 
