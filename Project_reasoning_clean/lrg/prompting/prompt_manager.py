@@ -45,8 +45,14 @@ class PromptManager(object):
                 "Unsupported prompt_version: "
                 f"{self.prompt_version}. Supported values are None, 'v2', and 'v3'."
             )
-        if self.prompt_version == "v3" and self.reasoning_method != "direct":
-            raise ValueError("Prompt v3 currently implements only reasoning_method: direct.")
+        if self.prompt_version == "v3" and self.reasoning_method not in ("direct", "zero_shot_cot"):
+            raise ValueError("Prompt v3 supports reasoning_method: direct or zero_shot_cot.")
+        if self.reasoning_method == "zero_shot_cot" and (
+            self.prompt_version != "v3"
+            or self.citation_mode != "provision_id"
+            or self.citation_constraint_mode != "enum"
+        ):
+            raise ValueError("zero_shot_cot requires prompt v3 with provision_id citations and enum constraints.")
         if self.citation_mode not in ("inline", "provision_id"):
             raise ValueError("Unsupported citation_mode. Supported values are 'inline' and 'provision_id'.")
         if self.citation_mode == "provision_id" and self.prompt_version != "v3":
@@ -102,6 +108,8 @@ class PromptManager(object):
             and dataset == "tax"
             and task == "response"
         ):
+            if self.reasoning_method == "zero_shot_cot":
+                return "response-tax-v3-citation-id-enum-zero-shot-cot"
             return "response-tax-v3-citation-id-enum"
 
         if (
@@ -286,6 +294,8 @@ class PromptManager(object):
         
         assert task in self.TASK_NAMES, "{} not found in TASK_NAMES".format(task)
         assert dataset in self.DATASET_NAMES, "{} not found in DATASET_NAMES".format(dataset)
+        if self.reasoning_method == "zero_shot_cot" and (task != "response" or dataset != "tax"):
+            raise ValueError("zero_shot_cot supports only the Tax response task.")
         
         extra_task = task.split("-")[1] if len(task.split("-")) > 1 else ""
         

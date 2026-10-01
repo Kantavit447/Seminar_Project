@@ -379,9 +379,9 @@ class Ragger(object):
                         print(f"response_attempt_failed idx={index} attempt={counter} error_type={type(e).__name__}")
                     else:
                         print(e)
+                    if counter >= self.max_retries:
+                        raise
                     continue
-            # if (counter == self.max_retries) and (response is None):
-            #     response = {"content": {}, "usage": {}}
                    
         
         #Save retrieve ids as well

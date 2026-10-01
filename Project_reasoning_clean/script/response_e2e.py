@@ -138,6 +138,39 @@ def init_saved_retriever(dataset, saved_retrieval_path):
     print(f"saved_retrieval_runtime_to_source_idx={source_mapping}")
     return SavedRetrievalRetriever(nodes_by_question)
 
+def write_response_results(path, results, questions):
+    """บันทึกข้อมูลเดิมเป็น JSON ภาษา UTF-8 และสร้างฉบับอ่านง่ายโดยไม่เรียกโมเดล."""
+    path = Path(path)
+    with path.open("w", encoding="utf-8", newline="\n") as handle:
+        json.dump(results, handle, ensure_ascii=False, indent=2)
+        handle.write("\n")
+
+    lines = ["# ผลการสร้างคำตอบ", "", f"จำนวนคำตอบที่บันทึก: {len(results)} รายการ", "",
+             f"จัดรูปแบบจาก `{path.name}` โดยคงข้อความและภาษาที่โมเดลส่งกลับ ไม่แปลหรือแก้คำตอบ", "",
+             "รายงานนี้แสดงเฉพาะคำตอบที่บันทึกสำเร็จ ข้อที่ล้มเหลวให้ตรวจจากไฟล์ diagnostic แยกต่างหาก", ""]
+    for number, result in enumerate(results, start=1):
+        runtime_idx = canonical_idx(result["idx"])
+        source_idx = result.get("source_idx", "ไม่ระบุ")
+        content = result["content"]
+        elapsed = result.get("llm_time")
+        elapsed_text = f"{elapsed:.2f}" if isinstance(elapsed, (int, float)) else "ไม่ระบุ"
+        lines.extend([f"## รายการ {number} — source {source_idx}", "",
+                      f"runtime_idx: `{runtime_idx}` | source_idx: `{source_idx}`", "",
+                      f"ครั้งที่ลอง: {result.get('tries', 'ไม่ระบุ')} | เวลา LLM: {elapsed_text} วินาที | "
+                      f"token รวม: {result.get('usage', {}).get('total_tokens', 'ไม่ระบุ')}", ""])
+        for title, text in (
+            ("คำถาม", questions.get(runtime_idx, "ไม่พบคำถามที่ตรงกับ runtime_idx")),
+            ("การวิเคราะห์จากโมเดล", content.get("analysis", "ไม่มีฟิลด์ analysis")),
+            ("คำตอบจากโมเดล", content.get("answer", "ไม่มีฟิลด์ answer")),
+        ):
+            lines.extend([f"### {title}", "", "> " + text.replace("\r\n", "\n").replace("\n", "\n> "), ""])
+        lines.extend(["### กฎหมายที่อ้างอิง", ""])
+        lines.extend([f"- {item['law']} มาตรา {item['section']}" for item in content.get("citations", [])]
+                     or ["ไม่มีรายการอ้างอิง"])
+        lines.append("")
+    path.with_name(f"{path.stem}_readable.md").write_text("\n".join(lines), encoding="utf-8")
+
+
 async def evaluate_ragger(
     ragger: Ragger,
     golden_retriever: bool = False,
@@ -150,11 +183,12 @@ async def evaluate_ragger(
     
     tax_df = ragger.dataset.tax_df
     wangchan_df = ragger.dataset.wangchan_df
+    questions = {canonical_idx(idx): question for idx, question in zip(tax_df["idx"], tax_df["question"])}
     
     #First, do tax
     tax_results = []
     if os.path.exists(os.path.join(setting_name, "tax_response.json")):
-        with open(os.path.join(setting_name, "tax_response.json"), "r") as f:
+        with open(os.path.join(setting_name, "tax_response.json"), "r", encoding="utf-8") as f:
             tax_results = json.load(f)
     target_runtime_idx = (diagnostic or {}).get("runtime_idx")
     if target_runtime_idx is not None:
@@ -196,8 +230,9 @@ async def evaluate_ragger(
         results = await jobs
         
         tax_results.extend(results)
-        with open(os.path.join(setting_name, "tax_response.json"), "w") as f:
-            json.dump(tax_results, f)
+        write_response_results(
+            Path(setting_name) / "tax_response.json", tax_results, questions
+        )
         
         time.sleep(max(0, 30 - (time.time() - start)))
     return    
@@ -266,6 +301,8 @@ async def main(args):
     context_source = config.get("context_source", "retrieved")
     if context_source not in ("retrieved", "golden"):
         raise ValueError("context_source must be 'retrieved' or 'golden'.")
+    if config.get("reasoning_method") == "zero_shot_cot" and context_source == "retrieved" and not saved_retrieval_path:
+        raise ValueError("zero_shot_cot with retrieved context requires saved_retrieval_path; live retrieval is disabled.")
 
     os.environ["CUDA_VISIBLE_DEVICES"] = str(config.get("device", "0"))
     print(os.environ["CUDA_VISIBLE_DEVICES"])
@@ -350,6 +387,9 @@ async def main(args):
                     dump_name = f"section_based_direct_v3_runtime_{debug_runtime_idx}_source_{source_idx}_final_prompt.txt"
             else:
                 dump_name = f"section_based_direct_v3_runtime_{debug_runtime_idx}_final_prompt.txt"
+        elif config.get("prompt_version") == "v3" and config.get("reasoning_method") == "zero_shot_cot":
+            context_label = "golden" if context_source == "golden" else "section_based"
+            dump_name = f"{context_label}_zero_shot_cot_v3_citation_id_enum_runtime_{debug_runtime_idx}_source_{source_idx}_final_prompt.txt"
         else:
             dump_name = f"section_based_v2_runtime_{debug_runtime_idx}_final_prompt.txt"
         dump_path = debug_dir / dump_name
