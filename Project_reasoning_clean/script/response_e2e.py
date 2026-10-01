@@ -15,6 +15,7 @@ from lrg.data import EvalDataset
 from lrg.retrieval import init_retriever
 from lrg.prompting import PromptManager
 from lrg.llm import init_llm
+from lrg.llm.collections.openai.model import RawCompletionFailure
 from lrg.augmenter import NitiLinkAugmenterConfig, NitiLinkAugmenter
 from lrg.e2e import Ragger
 
@@ -171,6 +172,64 @@ def write_response_results(path, results, questions):
     path.with_name(f"{path.stem}_readable.md").write_text("\n".join(lines), encoding="utf-8")
 
 
+def get_tax_run_status(tax_df, results, failure_dir, model_settings):
+    """ตรวจ checkpoint ราย ID และนับ length failure เป็น attempt ที่สิ้นสุดแล้ว."""
+    sources = {canonical_idx(row["idx"]): canonical_idx(row["source_idx"])
+               for _, row in tax_df.iterrows()}
+    if len(sources) != len(tax_df) or len(set(sources.values())) != len(sources):
+        raise ValueError("Continuation requires unique runtime/source IDs.")
+    successes = set()
+    for result in results:
+        idx = canonical_idx(result["idx"])
+        if idx in successes or sources.get(idx) != canonical_idx(result.get("source_idx")):
+            raise ValueError("Duplicate or mismatched IDs in saved responses; inspect before resuming.")
+        successes.add(idx)
+    rows = []
+    for idx, source in sources.items():
+        row = {"runtime_idx": idx, "source_idx": source,
+               "status": "success" if idx in successes else "pending"}
+        path = Path(failure_dir) / f"runtime_{idx}_source_{source}_attempt_1.json"
+        artifacts = list(Path(failure_dir).glob(f"runtime_{idx}_source_*_attempt_*.json"))
+        if artifacts and (len(artifacts) != 1 or artifacts[0] != path):
+            raise ValueError(f"Unexpected failure attempts/source for runtime {idx}; inspect before resuming.")
+        if path.is_file():
+            record = json.loads(path.read_text(encoding="utf-8"))
+            if (record.get("finish_reason") != "length"
+                    or record.get("exception_type") != "LengthFinishReasonError"
+                    or canonical_idx(record.get("runtime_idx")) != idx
+                    or canonical_idx(record.get("source_idx")) != source
+                    or record.get("retry_attempt") != 1
+                    or record.get("model_settings") != model_settings
+                    or not isinstance(record.get("raw_response_content"), str)):
+                raise ValueError(f"Failure evidence does not match this one-attempt run: {path}")
+            if idx in successes:
+                raise ValueError(f"Runtime {idx} has both success and failure; inspect before resuming.")
+            row.update(status="generation_failure", finish_reason="length", diagnostic_file=str(path))
+        rows.append(row)
+    return {"total": len(rows),
+            **{status: sum(row["status"] == status for row in rows)
+               for status in ("success", "generation_failure", "pending")},
+            "items": rows}
+
+
+def write_tax_run_status(folder, status):
+    """บันทึกสถานะครบทุกข้อแยกจาก schema คำตอบสำเร็จ."""
+    path = Path(folder) / "tax_run_status.json"
+    path.write_text(json.dumps(status, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    labels = {"success": "บันทึกคำตอบสำเร็จ", "generation_failure": "สร้างคำตอบไม่จบ: เต็มงบ output",
+              "pending": "ยังไม่ได้คำตอบหรือหลักฐาน failure ที่ยืนยันได้"}
+    lines = ["# สถานะการรัน", "",
+             f"ทั้งหมด {status['total']} ข้อ | บันทึกคำตอบสำเร็จ {status['success']} | "
+             f"generation failure {status['generation_failure']} | ค้าง {status['pending']}", "",
+             "สถานะสำเร็จหมายถึงบันทึกคำตอบได้ ไม่ใช่คะแนนความถูกต้องของคำตอบ", "",
+             "ข้อที่มี length failure นับเป็น attempt ที่สิ้นสุดแล้ว ไม่มีคำตอบว่างแทนและไม่เรียกซ้ำอัตโนมัติ", "",
+             "| runtime | source | สถานะ | หลักฐาน failure |", "|---|---|---|---|"]
+    lines.extend(f"| {row['runtime_idx']} | {row['source_idx']} | {labels[row['status']]} | "
+                 f"{row.get('diagnostic_file', '')} |" for row in status["items"])
+    path.with_suffix(".md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"run_status success={status['success']} generation_failure={status['generation_failure']} pending={status['pending']}")
+
+
 async def evaluate_ragger(
     ragger: Ragger,
     golden_retriever: bool = False,
@@ -190,8 +249,20 @@ async def evaluate_ragger(
     if os.path.exists(os.path.join(setting_name, "tax_response.json")):
         with open(os.path.join(setting_name, "tax_response.json"), "r", encoding="utf-8") as f:
             tax_results = json.load(f)
-    target_runtime_idx = (diagnostic or {}).get("runtime_idx")
-    if target_runtime_idx is not None:
+    diagnostic = diagnostic or {}
+    target_runtime_idx = diagnostic.get("runtime_idx")
+    continue_on_length = diagnostic.get("continue_on_length_failure", False)
+    if not continue_on_length and (Path(setting_name) / "tax_run_status.json").is_file():
+        raise ValueError("This run has per-question status; resume with --continue-on-length-failure.")
+    if continue_on_length:
+        if (batch_size != 1 or diagnostic.get("max_retries") != 1 or ragger.max_retries != 1
+                or not diagnostic.get("save_raw_on_parse_failure")
+                or not diagnostic.get("failure_output_dir") or target_runtime_idx is not None):
+            raise ValueError("Length-failure continuation requires a full run, batch_size=1, max_retries=1, and saved diagnostics.")
+        status = get_tax_run_status(tax_df, tax_results, diagnostic["failure_output_dir"], ragger.llm.config)
+        write_tax_run_status(setting_name, status)
+        positions = [i for i, row in enumerate(status["items"]) if row["status"] == "pending"]
+    elif target_runtime_idx is not None:
         target_runtime_idx = canonical_idx(target_runtime_idx)
         matches = [
             position for position, value in enumerate(tax_df["idx"].tolist())
@@ -227,12 +298,27 @@ async def evaluate_ragger(
         start = time.time()
         jobs = ragger.rag_multi(indices=indices, queries=queries, relevant_laws=relevant_laws, dataset_names=dataset_names)
             
-        results = await jobs
-        
+        try:
+            results = await jobs
+        except RawCompletionFailure as error:
+            if (not continue_on_length or error.diagnostic_record.get("finish_reason") != "length"
+                    or error.diagnostic_record.get("exception_type") != "LengthFinishReasonError"):
+                raise
+            status = get_tax_run_status(tax_df, tax_results, diagnostic["failure_output_dir"], ragger.llm.config)
+            if status["items"][i]["status"] != "generation_failure":
+                raise RuntimeError("Length failure was not saved; refusing to skip the question.") from error
+            write_tax_run_status(setting_name, status)
+            print(f"length_failure_recorded idx={indices[0]}; continuing without retry")
+            time.sleep(max(0, 30 - (time.time() - start)))
+            continue
+
         tax_results.extend(results)
         write_response_results(
             Path(setting_name) / "tax_response.json", tax_results, questions
         )
+        if continue_on_length:
+            status = get_tax_run_status(tax_df, tax_results, diagnostic["failure_output_dir"], ragger.llm.config)
+            write_tax_run_status(setting_name, status)
         
         time.sleep(max(0, 30 - (time.time() - start)))
     return    
@@ -301,8 +387,12 @@ async def main(args):
     context_source = config.get("context_source", "retrieved")
     if context_source not in ("retrieved", "golden"):
         raise ValueError("context_source must be 'retrieved' or 'golden'.")
-    if config.get("reasoning_method") == "zero_shot_cot" and context_source == "retrieved" and not saved_retrieval_path:
-        raise ValueError("zero_shot_cot with retrieved context requires saved_retrieval_path; live retrieval is disabled.")
+    if getattr(args, "continue_on_length_failure", False):
+        if context_source == "retrieved" and not saved_retrieval_path:
+            raise ValueError("Length-failure continuation supports only Golden or Saved Retrieved.")
+        diagnostic = dict(diagnostic, continue_on_length_failure=True)
+    if config.get("reasoning_method") in ("zero_shot_cot", "irac") and context_source == "retrieved" and not saved_retrieval_path:
+        raise ValueError(f"{config['reasoning_method']} with retrieved context requires saved_retrieval_path; live retrieval is disabled.")
 
     os.environ["CUDA_VISIBLE_DEVICES"] = str(config.get("device", "0"))
     print(os.environ["CUDA_VISIBLE_DEVICES"])
@@ -387,9 +477,9 @@ async def main(args):
                     dump_name = f"section_based_direct_v3_runtime_{debug_runtime_idx}_source_{source_idx}_final_prompt.txt"
             else:
                 dump_name = f"section_based_direct_v3_runtime_{debug_runtime_idx}_final_prompt.txt"
-        elif config.get("prompt_version") == "v3" and config.get("reasoning_method") == "zero_shot_cot":
+        elif config.get("prompt_version") == "v3" and config.get("reasoning_method") in ("zero_shot_cot", "irac"):
             context_label = "golden" if context_source == "golden" else "section_based"
-            dump_name = f"{context_label}_zero_shot_cot_v3_citation_id_enum_runtime_{debug_runtime_idx}_source_{source_idx}_final_prompt.txt"
+            dump_name = f"{context_label}_{config['reasoning_method']}_v3_citation_id_enum_runtime_{debug_runtime_idx}_source_{source_idx}_final_prompt.txt"
         else:
             dump_name = f"section_based_v2_runtime_{debug_runtime_idx}_final_prompt.txt"
         dump_path = debug_dir / dump_name
@@ -654,6 +744,8 @@ if __name__ == "__main__":
     parser.add_argument("--config_path", type=str, default="/app/LRG/config/all_e2e.yaml")
     parser.add_argument("--saved-retrieval-smoke-test", action="store_true")
     parser.add_argument("--dump-final-prompt", action="store_true")
+    parser.add_argument("--continue-on-length-failure", action="store_true",
+                        help="Record saved output-length failures and continue pending questions without retrying them.")
     args = parser.parse_args()
     if args.saved_retrieval_smoke_test and args.dump_final_prompt:
         parser.error("--saved-retrieval-smoke-test and --dump-final-prompt cannot be used together.")
