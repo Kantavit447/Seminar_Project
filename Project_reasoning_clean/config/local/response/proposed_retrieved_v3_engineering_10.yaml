@@ -1,0 +1,6 @@
+irac_config_path: config/local/response/section_based_rag_qwen_irac_v3_citation_id_enum_engineering_10_ctx32768.yaml
+output_path: results/current/common_interface_v3/section_based_proposed_v3_engineering_10_ctx32768
+verifier_max_tokens: 2048
+corrector_max_tokens: 4096
+safety_margin_tokens: 512
+proposed_prompt_version: proposed-tax-v3

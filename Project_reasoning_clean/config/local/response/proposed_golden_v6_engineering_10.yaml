@@ -1,0 +1,6 @@
+irac_config_path: config/local/response/golden_qwen_irac_v3_citation_id_enum_engineering_10_ctx16384.yaml
+output_path: results/current/common_interface_v3/golden_proposed_v6_engineering_10_ctx16384
+verifier_max_tokens: 2048
+corrector_max_tokens: 4096
+safety_margin_tokens: 512
+proposed_prompt_version: proposed-tax-v6
